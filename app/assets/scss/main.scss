@@ -1,0 +1,30 @@
+html {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  *,
+  body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Nimbus';
+    font-size: 14px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    outline: none;
+  }
+
+  body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  button,
+  a {
+    all: unset;
+    cursor: pointer;
+  }
+}
