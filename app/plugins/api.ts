@@ -8,6 +8,14 @@ export default defineNuxtPlugin(() => {
     credentials: 'include',
     retry: false,
     ignoreResponseError: true,
+    onResponse: async ({ response }) => {
+      if (response.status === 401 || response.status === 403) {
+        // TODO возврат на логинку
+      } else if (!response.ok) {
+        // TODO алерты
+        response._data = undefined
+      }
+    },
   })
 
   return {

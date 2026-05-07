@@ -3,8 +3,11 @@
 <template>
   <main class="app">
     <LayoutHeader />
-    <section class="app__pages">
-      <NuxtPage />
+    <section class="app__content">
+      <div class="app__pages">
+        <NuxtPage />
+      </div>
+      <Activity />
     </section>
   </main>
 </template>
@@ -19,6 +22,10 @@
   overflow: hidden;
 
   &__pages {
+    flex: 1 1 0;
+  }
+
+  &__content {
     flex: 1 0 0;
     position: relative;
     display: flex;

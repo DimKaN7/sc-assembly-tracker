@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     },
   },
   imports: {
-    dirs: ['stores/**', 'composables/**', 'models/**'],
+    dirs: ['stores/**', 'composables/**', 'models/**', 'utils/api/**', 'utils/helpers/**'],
   },
   svgo: {
     autoImportPath: '@/assets/images/',

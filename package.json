@@ -7,10 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@pinia/nuxt": "^0.11.3",
+    "dayjs": "^1.11.20",
     "nuxt": "^4.4.4",
     "nuxt-svgo": "^5.3.0",
     "pinia": "^3.0.4",

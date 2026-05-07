@@ -2,7 +2,9 @@
 
 <template>
   <header class="header">
-    <h1 class="header__title">трэкер сборки</h1>
+    <NuxtLink to="/">
+      <h1 class="header__title">star citizen assembly tracker</h1>
+    </NuxtLink>
     <UserInfo />
   </header>
 </template>
