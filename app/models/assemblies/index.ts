@@ -15,3 +15,17 @@ export interface ContributionResponse {
   measure: string
   contributedAt: number
 }
+
+export interface ExtendedAssemblyResponse extends Omit<Assembly, 'contributorsCount'> {
+  materials: MaterialResponse[]
+  contributions: ContributionResponse[]
+}
+
+export interface MaterialResponse {
+  id: string
+  name: string
+  measure: string
+  requiredCount: number
+  actualCount: number
+  progress: number
+}

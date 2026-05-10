@@ -8,7 +8,7 @@ const progressValue = computed<string>(() => `${assembly.progress}%`)
 
 <template>
   <NuxtLink
-    :to="`/assemblies/${assembly.id}`"
+    :to="`/${assembly.id}`"
     class="assembly">
     <div class="assembly__header">
       <h2 class="assembly__name">{{ assembly.name }}</h2>
@@ -25,9 +25,7 @@ const progressValue = computed<string>(() => `${assembly.progress}%`)
         <span class="title">Прогресс</span>
         <span class="value">{{ progressValue }}</span>
       </div>
-      <div
-        class="bar"
-        :style="{ '--progress': progressValue }" />
+      <Progress :progress-value />
     </div>
   </NuxtLink>
 </template>
@@ -57,26 +55,6 @@ const progressValue = computed<string>(() => `${assembly.progress}%`)
     display: flex;
     flex-direction: column;
     gap: 5px;
-
-    .bar {
-      width: 100%;
-      height: 5px;
-      background-color: #1e232d;
-      border-radius: 999px;
-      position: relative;
-      overflow: hidden;
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: var(--progress);
-        background-color: #00f2ff;
-        transition: width 0.2s ease-in-out;
-      }
-    }
 
     .inline {
       justify-content: space-between;
