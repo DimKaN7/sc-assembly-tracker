@@ -5,11 +5,9 @@ useSeoMeta({
 
 const assembliesStore = useAssembliesStore()
 const { assemblies } = storeToRefs(assembliesStore)
-const { getAssemblies, getContributions } = assembliesStore
+const { getAssemblies } = assembliesStore
 
-onMounted(async () => {
-  await Promise.allSettled([getAssemblies(), getContributions()])
-})
+onMounted(getAssemblies)
 </script>
 
 <template>

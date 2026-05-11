@@ -1,26 +1,24 @@
 export const useAssembliesStore = defineStore('assemblies', () => {
-  const assemblies = ref<Assembly[]>([])
+  const assemblies = ref<AssemblyResponse[]>([])
   const assembly = ref<ExtendedAssemblyResponse>()
   const contributions = ref<ContributionResponse[]>([])
 
   const materials = computed<MaterialResponse[]>(() => assembly.value?.materials ?? [])
 
   const getAssemblies = async (): Promise<void> => {
-    const response = await performRequest<Assembly[]>('/assemblies')
+    const response = await performRequest<AssembliesResponse>('/assemblies')
     if (response) {
-      assemblies.value = response
+      assemblies.value = response.assemblies
+      contributions.value = response.contributions
     }
   }
 
-  const getContributions = async (
-    assemblyId?: string,
-    type: 'get' | 'load' = 'get',
-  ): Promise<void> => {
+  const loadContributions = async (assemblyId?: string): Promise<void> => {
     const response = await performRequest<ContributionResponse[]>(
       `/assemblies/contributions${assemblyId ? `?id=${assemblyId}` : ''}`,
     )
     if (response) {
-      contributions.value = type === 'get' ? response : [...contributions.value, ...response]
+      contributions.value = [...contributions.value, ...response]
     }
   }
 
@@ -44,14 +42,49 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     }
   }
 
+  const onContributionMessage = (
+    message: DataWithContriution<NewContributionResponse> | undefined,
+  ) => {
+    if (message) {
+      if (message.data) {
+        if (assembly.value) {
+          if (assembly.value.id === message.data.assemblyId) {
+            const material = assembly.value.materials.find((m) => m.id === message.data!.materialId)
+            if (material) {
+              material.actualCount = message.data.newCount
+              material.progress = message.data.materialProgress
+            }
+            assembly.value.progress = message.data.assemblyProgress
+            contributions.value = [message.contribution, ...contributions.value]
+          }
+        } else {
+          const a = assemblies.value.find((a) => a.id === message.data?.assemblyId)
+          if (a) {
+            a.progress = message.data.assemblyProgress
+            a.contributorsCount = message.data.contributorsCount
+          }
+          contributions.value = [message.contribution, ...contributions.value]
+        }
+      }
+    }
+  }
+
+  const clear = (): void => {
+    assemblies.value = []
+    assembly.value = undefined
+    contributions.value = []
+  }
+
   return {
     assemblies,
     assembly,
     contributions,
     materials,
     getAssemblies,
-    getContributions,
+    loadContributions,
     getAssembly,
     addMaterial,
+    onContributionMessage,
+    clear,
   }
 })

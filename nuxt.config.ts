@@ -41,6 +41,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseUrl: `${import.meta.env.NUXT_API_BASE_URL}`,
+      authUrl: `${import.meta.env.NUXT_AUTH_URL}`,
+      assembliesEventsGroupUrl: `${import.meta.env.NUXT_ASSEMBLIES_EVENTS_URL}`,
     },
   },
   typescript: {

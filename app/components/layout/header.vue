@@ -1,11 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const userStore = useUserStore()
+const { username } = storeToRefs(userStore)
+const { logout } = userStore
+</script>
 
 <template>
   <header class="header">
     <NuxtLink to="/">
       <h1 class="header__title">star citizen assembly tracker</h1>
     </NuxtLink>
-    <UserInfo />
+    <UserInfo
+      v-if="username"
+      :username
+      @logout-click="logout" />
   </header>
 </template>
 

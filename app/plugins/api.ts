@@ -10,8 +10,7 @@ export default defineNuxtPlugin(() => {
     ignoreResponseError: true,
     onResponse: async ({ response }) => {
       if (response.status === 401 || response.status === 403) {
-        // TODO возврат на логинку
-        window.location.href = 'http://localhost:5226/api/auth'
+        await navigateTo('/login')
       } else if (!response.ok) {
         // TODO алерты
         response._data = undefined

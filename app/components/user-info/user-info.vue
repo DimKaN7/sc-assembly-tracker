@@ -1,9 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{
+  username: string
+}>()
+
+defineEmits<{
+  logoutClick: []
+}>()
+</script>
 
 <template>
   <div class="user">
-    <span class="user__name">dimka_n7</span>
-    <button class="user__logout">
+    <span class="user__name">{{ username }}</span>
+    <button
+      class="user__logout"
+      @click="$emit('logoutClick')">
       <IHeaderLogout />
     </button>
   </div>

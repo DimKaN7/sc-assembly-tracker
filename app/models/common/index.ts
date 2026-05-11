@@ -5,3 +5,13 @@ export interface Problem {
   detail: string
   traceId: string
 }
+
+export interface SignalRCallback {
+  name: string
+  handle: (message: unknown | undefined) => void
+}
+
+export interface DataWithContriution<T> {
+  data: T | null
+  contribution: ContributionResponse
+}

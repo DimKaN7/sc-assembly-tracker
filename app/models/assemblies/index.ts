@@ -1,4 +1,9 @@
-export interface Assembly {
+export interface AssembliesResponse {
+  assemblies: AssemblyResponse[]
+  contributions: ContributionResponse[]
+}
+
+export interface AssemblyResponse {
   id: string
   name: string
   description: string
@@ -16,7 +21,7 @@ export interface ContributionResponse {
   contributedAt: number
 }
 
-export interface ExtendedAssemblyResponse extends Omit<Assembly, 'contributorsCount'> {
+export interface ExtendedAssemblyResponse extends Omit<AssemblyResponse, 'contributorsCount'> {
   materials: MaterialResponse[]
   contributions: ContributionResponse[]
 }
@@ -28,4 +33,13 @@ export interface MaterialResponse {
   requiredCount: number
   actualCount: number
   progress: number
+}
+
+export interface NewContributionResponse {
+  assemblyId: string
+  materialId: string
+  newCount: number
+  assemblyProgress: number
+  materialProgress: number
+  contributorsCount: number
 }

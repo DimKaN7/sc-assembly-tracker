@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { assembly } = defineProps<{
-  assembly: Assembly
+  assembly: AssemblyResponse
 }>()
 
 const progressValue = computed<string>(() => `${assembly.progress}%`)
