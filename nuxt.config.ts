@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     ['@pinia/nuxt', { autoImports: ['defineStore', 'storeToRefs'] }],
     '@nuxt/eslint',
     'nuxt-svgo',
+    '@vueuse/nuxt',
   ],
   css: ['@/assets/scss/main.scss'],
   vite: {

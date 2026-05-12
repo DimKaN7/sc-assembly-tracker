@@ -1,6 +1,6 @@
 export interface AssembliesResponse {
   assemblies: AssemblyResponse[]
-  contributions: ContributionResponse[]
+  contributions: HasNextPageResponse<ContributionResponse>
 }
 
 export interface AssemblyResponse {
@@ -23,7 +23,7 @@ export interface ContributionResponse {
 
 export interface ExtendedAssemblyResponse extends Omit<AssemblyResponse, 'contributorsCount'> {
   materials: MaterialResponse[]
-  contributions: ContributionResponse[]
+  contributions: HasNextPageResponse<ContributionResponse>
 }
 
 export interface MaterialResponse {

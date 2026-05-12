@@ -15,3 +15,8 @@ export interface DataWithContriution<T> {
   data: T | null
   contribution: ContributionResponse
 }
+
+export interface HasNextPageResponse<T> {
+  data: T[]
+  hasNextPage: boolean
+}

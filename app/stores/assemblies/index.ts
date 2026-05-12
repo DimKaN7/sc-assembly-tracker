@@ -1,7 +1,7 @@
 export const useAssembliesStore = defineStore('assemblies', () => {
   const assemblies = ref<AssemblyResponse[]>([])
   const assembly = ref<ExtendedAssemblyResponse>()
-  const contributions = ref<ContributionResponse[]>([])
+  const contributions = ref<HasNextPageResponse<ContributionResponse>>()
 
   const materials = computed<MaterialResponse[]>(() => assembly.value?.materials ?? [])
 
@@ -13,12 +13,17 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     }
   }
 
-  const loadContributions = async (assemblyId?: string): Promise<void> => {
-    const response = await performRequest<ContributionResponse[]>(
-      `/assemblies/contributions${assemblyId ? `?id=${assemblyId}` : ''}`,
-    )
-    if (response) {
-      contributions.value = [...contributions.value, ...response]
+  const loadContributions = async (assemblyId: string | undefined, time: number): Promise<void> => {
+    if (contributions.value?.hasNextPage) {
+      const response = await performRequest<HasNextPageResponse<ContributionResponse>>(
+        `/assemblies/contributions?time=${time}${assemblyId ? `&assemblyId=${assemblyId}` : ''}`,
+      )
+      if (response) {
+        contributions.value = {
+          data: [...contributions.value.data, ...response.data],
+          hasNextPage: response.hasNextPage,
+        }
+      }
     }
   }
 
@@ -55,7 +60,9 @@ export const useAssembliesStore = defineStore('assemblies', () => {
               material.progress = message.data.materialProgress
             }
             assembly.value.progress = message.data.assemblyProgress
-            contributions.value = [message.contribution, ...contributions.value]
+            if (contributions.value) {
+              contributions.value.data = [message.contribution, ...contributions.value.data]
+            }
           }
         } else {
           const a = assemblies.value.find((a) => a.id === message.data?.assemblyId)
@@ -63,7 +70,9 @@ export const useAssembliesStore = defineStore('assemblies', () => {
             a.progress = message.data.assemblyProgress
             a.contributorsCount = message.data.contributorsCount
           }
-          contributions.value = [message.contribution, ...contributions.value]
+          if (contributions.value) {
+            contributions.value.data = [message.contribution, ...contributions.value.data]
+          }
         }
       }
     }
@@ -72,7 +81,7 @@ export const useAssembliesStore = defineStore('assemblies', () => {
   const clear = (): void => {
     assemblies.value = []
     assembly.value = undefined
-    contributions.value = []
+    contributions.value = undefined
   }
 
   return {

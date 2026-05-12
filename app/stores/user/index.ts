@@ -9,10 +9,10 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const logout = async (): Promise<void> => {
+    await navigateTo('/login')
     username.value = ''
     useAssembliesStore().clear()
     await performSimpleRequest('/auth/logout')
-    await navigateTo('/login')
   }
 
   return {

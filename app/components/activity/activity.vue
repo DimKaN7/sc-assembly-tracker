@@ -1,6 +1,15 @@
 <script setup lang="ts">
 const assembliesStore = useAssembliesStore()
-const { contributions } = storeToRefs(assembliesStore)
+const { contributions, assembly } = storeToRefs(assembliesStore)
+const { loadContributions } = assembliesStore
+
+const sentinel = useTemplateRef('sentinel')
+
+useIntersectionObserver(sentinel, async ([entry]) => {
+  if (entry?.isIntersecting && contributions.value?.data.length) {
+    await loadContributions(assembly.value?.id, contributions.value.data.at(-1)!.contributedAt)
+  }
+})
 </script>
 
 <template>
@@ -11,13 +20,16 @@ const { contributions } = storeToRefs(assembliesStore)
     </div>
     <div class="activity__content">
       <ul
-        v-if="contributions.length"
+        v-if="contributions?.data.length"
         class="activity__list scroll-y">
         <li
-          v-for="contribution in contributions"
+          v-for="contribution in contributions.data"
           :key="contribution.id">
           <ActivityContribution :contribution />
         </li>
+        <li
+          ref="sentinel"
+          class="sentinel" />
       </ul>
       <span
         v-else
@@ -35,6 +47,11 @@ const { contributions } = storeToRefs(assembliesStore)
   display: flex;
   flex-direction: column;
   border-left: 1px solid #1e232d;
+
+  .sentinel {
+    width: 100%;
+    height: 0px;
+  }
 
   &__list {
     width: 100%;
