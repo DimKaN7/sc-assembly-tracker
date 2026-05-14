@@ -4,6 +4,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
   app: {
+    baseURL: `${import.meta.env.NUXT_APP_BASE_URL}`,
+    buildAssetsDir: '_nuxt',
     head: {
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1' },
