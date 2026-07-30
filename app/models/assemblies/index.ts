@@ -38,7 +38,7 @@ export interface MaterialResponse {
 export interface NewContributionResponse {
   assemblyId: string
   materialId: string
-  newCount: number
+  newAmount: number
   assemblyProgress: number
   materialProgress: number
   contributorsCount: number

@@ -48,31 +48,31 @@ export const useAssembliesStore = defineStore('assemblies', () => {
   }
 
   const onContributionMessage = (
-    message: DataWithContriution<NewContributionResponse> | undefined,
+    message: DataWithContribution<NewContributionResponse> | undefined,
   ) => {
-    if (message) {
-      if (message.data) {
-        if (assembly.value) {
-          if (assembly.value.id === message.data.assemblyId) {
-            const material = assembly.value.materials.find((m) => m.id === message.data!.materialId)
-            if (material) {
-              material.actualCount = message.data.newCount
-              material.progress = message.data.materialProgress
-            }
-            assembly.value.progress = message.data.assemblyProgress
-            if (contributions.value) {
-              contributions.value.data = [message.contribution, ...contributions.value.data]
-            }
+    if (message?.data) {
+      const data = message.data
+      const contribution = message.contribution
+      if (assembly.value) {
+        if (assembly.value.id === data.assemblyId) {
+          const material = assembly.value.materials.find((m) => m.id === data.materialId)
+          if (material) {
+            material.actualCount = data.newAmount
+            material.progress = data.materialProgress
           }
-        } else {
-          const a = assemblies.value.find((a) => a.id === message.data?.assemblyId)
-          if (a) {
-            a.progress = message.data.assemblyProgress
-            a.contributorsCount = message.data.contributorsCount
-          }
+          assembly.value.progress = data.assemblyProgress
           if (contributions.value) {
-            contributions.value.data = [message.contribution, ...contributions.value.data]
+            contributions.value.data = [contribution, ...contributions.value.data]
           }
+        }
+      } else {
+        const a = assemblies.value.find((a) => a.id === data.assemblyId)
+        if (a) {
+          a.progress = data.assemblyProgress
+          a.contributorsCount = data.contributorsCount
+        }
+        if (contributions.value) {
+          contributions.value.data = [contribution, ...contributions.value.data]
         }
       }
     }

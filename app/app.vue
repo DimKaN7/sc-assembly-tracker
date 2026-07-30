@@ -6,7 +6,7 @@ useSeoMeta({
 
 const { getUserName } = useUserStore()
 
-useAssembliesEventsGroup()
+useAssembliesEvents()
 
 onMounted(getUserName)
 </script>

@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
   app: {
-    baseURL: `${import.meta.env.NUXT_APP_BASE_URL}`,
+    baseURL: import.meta.env.NUXT_APP_BASE_URL ?? '/',
     buildAssetsDir: '_nuxt',
     head: {
       meta: [
@@ -45,7 +45,7 @@ export default defineNuxtConfig({
     public: {
       baseUrl: `${import.meta.env.NUXT_API_BASE_URL}`,
       authUrl: `${import.meta.env.NUXT_AUTH_URL}`,
-      assembliesEventsGroupUrl: `${import.meta.env.NUXT_ASSEMBLIES_EVENTS_URL}`,
+      assembliesEventsUrl: `${import.meta.env.NUXT_ASSEMBLIES_EVENTS_URL}`,
     },
   },
   typescript: {

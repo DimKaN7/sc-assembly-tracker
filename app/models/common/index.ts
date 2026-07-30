@@ -6,12 +6,12 @@ export interface Problem {
   traceId: string
 }
 
-export interface SignalRCallback {
-  name: string
-  handle: (message: unknown | undefined) => void
+export interface SSEEvent<T> {
+  type: string
+  data: T | undefined
 }
 
-export interface DataWithContriution<T> {
+export interface DataWithContribution<T> {
   data: T | null
   contribution: ContributionResponse
 }
