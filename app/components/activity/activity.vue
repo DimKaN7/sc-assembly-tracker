@@ -7,7 +7,7 @@ const sentinel = useTemplateRef('sentinel')
 
 useIntersectionObserver(sentinel, async ([entry]) => {
   if (entry?.isIntersecting && contributions.value?.data.length) {
-    await loadContributions(assembly.value?.id, contributions.value.data.at(-1)!.contributedAt)
+    await loadContributions(assembly.value?.id, contributions.value.data.at(-1)!.id)
   }
 })
 </script>

@@ -13,10 +13,10 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     }
   }
 
-  const loadContributions = async (assemblyId: string | undefined, time: number): Promise<void> => {
+  const loadContributions = async (assemblyId: string | undefined, id: string): Promise<void> => {
     if (contributions.value?.hasNextPage) {
       const response = await performRequest<HasNextPageResponse<ContributionResponse>>(
-        `/assemblies/contributions?time=${time}${assemblyId ? `&assemblyId=${assemblyId}` : ''}`,
+        `/assemblies/contributions?id=${id}${assemblyId ? `&assemblyId=${assemblyId}` : ''}`,
       )
       if (response) {
         contributions.value = {
