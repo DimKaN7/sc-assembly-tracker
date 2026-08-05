@@ -4,7 +4,7 @@ export default () => {
   const { onContributionMessage } = useAssembliesStore()
 
   const userStore = useUserStore()
-  const { username } = storeToRefs(userStore)
+  const { user } = storeToRefs(userStore)
 
   const callbacks: Map<string, (data: unknown | undefined) => void> = new Map([
     [
@@ -17,7 +17,7 @@ export default () => {
   let eventSource: EventSource | undefined = undefined
 
   watch(
-    username,
+    user,
     async (val, prev) => {
       if (val && !prev) {
         eventSource = new EventSource(assembliesEventsUrl, {

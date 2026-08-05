@@ -1,10 +1,13 @@
 <script setup lang="ts">
-const { material } = defineProps<{
+const { material, extended = false } = defineProps<{
   material: MaterialResponse
+  extended?: boolean
 }>()
 
 const emits = defineEmits<{
   add: [materialId: string, amount: number]
+  click: [material: MaterialResponse]
+  close: []
 }>()
 
 const amount = ref<string>('')
@@ -22,14 +25,22 @@ const onAddClick = () => {
 </script>
 
 <template>
-  <li class="material">
-    <div class="material__header">
+  <li :class="['material', extended && 'extended']">
+    <button
+      v-if="extended"
+      class="material__close"
+      @click.stop="$emit('close')">
+      <ISharedClose />
+    </button>
+    <button
+      class="material__header"
+      @click="$emit('click', material)">
       <div class="material__icon">
         <IMaterial />
       </div>
       <span class="material__name">{{ material.name }}</span>
       <span class="material__percent">{{ progressValue }}</span>
-    </div>
+    </button>
     <div class="material__progress">
       <div class="inline">
         <span class="material__actual">{{ actualCount }}</span>
@@ -45,9 +56,21 @@ const onAddClick = () => {
         type="number" />
       <button
         class="material__add"
-        @click="onAddClick">
+        @click.stop="onAddClick">
         +
       </button>
+    </div>
+    <div
+      v-if="extended"
+      class="material__contributions scroll-y">
+      <ul>
+        <li
+          v-for="c in material.contributions"
+          :key="c.userId">
+          <span class="name">{{ c.username }}</span>
+          <span class="amount">{{ `${c.amount} ${material.measure}` }}</span>
+        </li>
+      </ul>
     </div>
   </li>
 </template>
@@ -61,6 +84,50 @@ const onAddClick = () => {
   background-color: #151921;
   border: 1px solid #1e232d;
   gap: 16px;
+  position: relative;
+
+  &__contributions {
+    width: 100%;
+    display: flex;
+    max-height: 200px;
+
+    > ul {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      list-style-type: none;
+      gap: 10px;
+
+      > li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .name,
+        .amount {
+          font-size: 16px;
+          color: #fff;
+        }
+
+        .amount {
+          font-family: LiberationMono;
+        }
+      }
+    }
+  }
+
+  &__close {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 0;
+    right: 0;
+    transform: translate(100%, -100%);
+  }
+
+  &.extended {
+    width: min(450px, 90%);
+  }
 
   &__add {
     padding: 10px 16px;

@@ -1,23 +1,23 @@
 export const useUserStore = defineStore('user', () => {
-  const username = ref<string>('')
+  const user = ref<UserResponse>()
 
-  const getUserName = async (): Promise<void> => {
-    const response = await performRequest<string>('/users/me')
+  const getUser = async (): Promise<void> => {
+    const response = await performRequest<UserResponse>('/users/me')
     if (response) {
-      username.value = response
+      user.value = response
     }
   }
 
   const logout = async (): Promise<void> => {
     await navigateTo('/login')
-    username.value = ''
+    user.value = undefined
     useAssembliesStore().clear()
     await performSimpleRequest('/auth/logout')
   }
 
   return {
-    username,
-    getUserName,
+    user,
+    getUser,
     logout,
   }
 })

@@ -54,11 +54,26 @@ export const useAssembliesStore = defineStore('assemblies', () => {
       const data = message.data
       const contribution = message.contribution
       if (assembly.value) {
+        // если открыта сборка - правим все внутри нее
         if (assembly.value.id === data.assemblyId) {
           const material = assembly.value.materials.find((m) => m.id === data.materialId)
           if (material) {
             material.actualCount = data.newAmount
             material.progress = data.materialProgress
+
+            const materialContribution = material.contributions.find(
+              (c) => c.userId === data.contributorId,
+            )
+            if (materialContribution) {
+              materialContribution.amount += data.addedAmount
+            } else {
+              material.contributions.push({
+                amount: data.addedAmount,
+                measure: material.measure,
+                userId: data.contributorId,
+                username: data.contributorUsername,
+              })
+            }
           }
           assembly.value.progress = data.assemblyProgress
           if (contributions.value) {
@@ -66,6 +81,7 @@ export const useAssembliesStore = defineStore('assemblies', () => {
           }
         }
       } else {
+        // иначе только прогресс, количество взносчиков и сами взносы
         const a = assemblies.value.find((a) => a.id === data.assemblyId)
         if (a) {
           a.progress = data.assemblyProgress

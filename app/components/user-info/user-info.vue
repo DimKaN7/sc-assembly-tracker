@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  username: string
+  user: UserResponse
 }>()
 
 defineEmits<{
@@ -10,7 +10,7 @@ defineEmits<{
 
 <template>
   <div class="user">
-    <span class="user__name">{{ username }}</span>
+    <span class="user__name">{{ user.username }}</span>
     <button
       class="user__logout"
       @click="$emit('logoutClick')">

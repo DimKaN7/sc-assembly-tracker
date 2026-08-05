@@ -4,11 +4,11 @@ useSeoMeta({
     titleChunk ? `AssemblyTracker - ${titleChunk}` : 'AssemblyTracker',
 })
 
-const { getUserName } = useUserStore()
+const { getUser } = useUserStore()
 
 useAssembliesEvents()
 
-onMounted(getUserName)
+onMounted(getUser)
 </script>
 
 <template>

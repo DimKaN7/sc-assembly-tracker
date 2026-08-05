@@ -6,6 +6,16 @@ defineProps<{
 defineEmits<{
   add: [materialId: string, amount: number]
 }>()
+
+const selectedMaterial = ref<MaterialResponse>()
+
+const onMaterialClick = (material: MaterialResponse) => {
+  selectedMaterial.value = material
+}
+
+const onMaterialClose = () => {
+  selectedMaterial.value = undefined
+}
 </script>
 
 <template>
@@ -14,8 +24,20 @@ defineEmits<{
       v-for="material in materials"
       :key="material.id"
       :material
-      @add="(id, amount) => $emit('add', id, amount)" />
+      @add="(id, amount) => $emit('add', id, amount)"
+      @click="onMaterialClick" />
   </ul>
+  <Teleport to="#teleports">
+    <div
+      v-if="selectedMaterial"
+      class="backdrop">
+      <CardMaterial
+        extended
+        :material="selectedMaterial"
+        @add="(id, amount) => $emit('add', id, amount)"
+        @close="onMaterialClose" />
+    </div>
+  </Teleport>
 </template>
 
 <style lang="scss" scoped>

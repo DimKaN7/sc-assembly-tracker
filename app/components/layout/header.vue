@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const userStore = useUserStore()
-const { username } = storeToRefs(userStore)
+const { user } = storeToRefs(userStore)
 const { logout } = userStore
 </script>
 
@@ -13,8 +13,8 @@ const { logout } = userStore
       <span class="header__live">live</span>
     </div>
     <UserInfo
-      v-if="username"
-      :username
+      v-if="user"
+      :user
       @logout-click="logout" />
   </header>
 </template>

@@ -33,6 +33,7 @@ export interface MaterialResponse {
   requiredCount: number
   actualCount: number
   progress: number
+  contributions: MaterialContributionResponse[]
 }
 
 export interface NewContributionResponse {
@@ -42,4 +43,14 @@ export interface NewContributionResponse {
   assemblyProgress: number
   materialProgress: number
   contributorsCount: number
+  contributorId: string
+  addedAmount: number
+  contributorUsername: string
+}
+
+export interface MaterialContributionResponse {
+  userId: string
+  username: string
+  amount: number
+  measure: string
 }
