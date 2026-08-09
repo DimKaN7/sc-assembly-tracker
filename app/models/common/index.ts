@@ -20,3 +20,8 @@ export interface HasNextPageResponse<T> {
   data: T[]
   hasNextPage: boolean
 }
+
+export interface TitleValue<T> {
+  title: string
+  value: T
+}

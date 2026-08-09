@@ -47,6 +47,14 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     }
   }
 
+  const deleteContribution = async (contributionId: string): Promise<void> => {
+    if (assembly.value) {
+      await performSimpleRequest(`/assemblies/${assembly.value.id}/${contributionId}`, {
+        method: 'DELETE',
+      })
+    }
+  }
+
   const onContributionMessage = (
     message: DataWithContribution<NewContributionResponse> | undefined,
   ) => {
@@ -60,19 +68,23 @@ export const useAssembliesStore = defineStore('assemblies', () => {
           if (material) {
             material.actualCount = data.newAmount
             material.progress = data.materialProgress
-
             const materialContribution = material.contributions.find(
-              (c) => c.userId === data.contributorId,
+              (c) => c.id === contribution.id,
             )
             if (materialContribution) {
               materialContribution.amount += data.addedAmount
             } else {
-              material.contributions.push({
-                amount: data.addedAmount,
-                measure: material.measure,
-                userId: data.contributorId,
-                username: data.contributorUsername,
-              })
+              material.contributions = [
+                {
+                  id: contribution.id,
+                  amount: data.addedAmount,
+                  userId: data.contributorId,
+                  username: data.contributorUsername,
+                  station: undefined,
+                  addedAt: contribution.contributedAt,
+                },
+                ...material.contributions,
+              ]
             }
           }
           assembly.value.progress = data.assemblyProgress
@@ -94,6 +106,32 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     }
   }
 
+  const onDeleteContributionMessage = (message: DeletedContributionResponse | undefined) => {
+    if (message) {
+      if (assembly.value && assembly.value.id === message.assemblyId) {
+        const material = assembly.value.materials.find((m) => m.id === message.materialId)
+        if (material) {
+          material.actualCount = message.newAmount
+          material.progress = message.materialProgress
+
+          removeContribution(material.contributions, message.id)
+        }
+
+        assembly.value.progress = message.assemblyProgress
+        removeContribution(assembly.value.contributions.data, message.id)
+      } else {
+        const a = assemblies.value.find((a) => a.id === message.assemblyId)
+        if (a) {
+          a.progress = message.assemblyProgress
+          a.contributorsCount = message.contributorsCount
+        }
+        if (contributions.value) {
+          removeContribution(contributions.value.data, message.id)
+        }
+      }
+    }
+  }
+
   const clear = (): void => {
     assemblies.value = []
     assembly.value = undefined
@@ -109,7 +147,9 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     loadContributions,
     getAssembly,
     addMaterial,
+    deleteContribution,
     onContributionMessage,
+    onDeleteContributionMessage,
     clear,
   }
 })

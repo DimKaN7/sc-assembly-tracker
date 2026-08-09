@@ -1,7 +1,7 @@
 export default () => {
   const { assembliesEventsUrl } = useRuntimeConfig().public
 
-  const { onContributionMessage } = useAssembliesStore()
+  const { onContributionMessage, onDeleteContributionMessage } = useAssembliesStore()
 
   const userStore = useUserStore()
   const { user } = storeToRefs(userStore)
@@ -11,6 +11,10 @@ export default () => {
       'material_contributed',
       (data) =>
         onContributionMessage(data as DataWithContribution<NewContributionResponse> | undefined),
+    ],
+    [
+      'contribution_deleted',
+      (data) => onDeleteContributionMessage(data as DeletedContributionResponse | undefined),
     ],
   ])
 

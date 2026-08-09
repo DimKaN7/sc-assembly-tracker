@@ -3,8 +3,8 @@ const route = useRoute()
 const assemblyId = route.params['id'][0]
 
 const assembliesStore = useAssembliesStore()
-const { assembly, materials, contributions } = storeToRefs(assembliesStore)
-const { getAssembly, addMaterial } = assembliesStore
+const { assembly, contributions } = storeToRefs(assembliesStore)
+const { getAssembly } = assembliesStore
 
 useSeoMeta({
   title: () => (assembly.value ? assembly.value.name : ''),
@@ -36,9 +36,7 @@ onBeforeRouteLeave(() => {
       </div>
       <Progress :progress-value />
     </div>
-    <Materials
-      :materials
-      @add="addMaterial" />
+    <Materials />
   </div>
 </template>
 

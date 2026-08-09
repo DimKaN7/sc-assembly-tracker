@@ -1,11 +1,10 @@
 <script setup lang="ts">
-defineProps<{
-  materials: MaterialResponse[]
-}>()
+const assembliesStore = useAssembliesStore()
+const { materials } = storeToRefs(assembliesStore)
+const { addMaterial, deleteContribution } = assembliesStore
 
-defineEmits<{
-  add: [materialId: string, amount: number]
-}>()
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
 const selectedMaterial = ref<MaterialResponse>()
 
@@ -19,23 +18,28 @@ const onMaterialClose = () => {
 </script>
 
 <template>
-  <ul class="materials scroll-y">
+  <ul
+    v-if="user"
+    class="materials scroll-y">
     <CardMaterial
       v-for="material in materials"
       :key="material.id"
       :material
-      @add="(id, amount) => $emit('add', id, amount)"
+      :user-id="user.id"
+      @add="(id, amount) => addMaterial(id, amount)"
       @click="onMaterialClick" />
   </ul>
   <Teleport to="#teleports">
     <div
-      v-if="selectedMaterial"
+      v-if="selectedMaterial && user"
       class="backdrop">
       <CardMaterial
         extended
         :material="selectedMaterial"
-        @add="(id, amount) => $emit('add', id, amount)"
-        @close="onMaterialClose" />
+        :user-id="user.id"
+        @add="(id, amount) => addMaterial(id, amount)"
+        @close="onMaterialClose"
+        @delete="deleteContribution" />
     </div>
   </Teleport>
 </template>
