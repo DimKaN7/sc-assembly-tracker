@@ -40,6 +40,7 @@ export interface NewContributionResponse extends Omit<DeletedContributionRespons
   contributorId: string
   addedAmount: number
   contributorUsername: string
+  station?: TitleValue<string>
 }
 
 export interface DeletedContributionResponse {
@@ -57,6 +58,6 @@ export interface MaterialContributionResponse {
   userId: string
   username: string
   amount: number
-  station?: TitleValue<number>
+  station?: TitleValue<string>
   addedAt: number
 }

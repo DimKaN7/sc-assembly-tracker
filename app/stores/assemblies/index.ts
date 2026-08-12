@@ -35,13 +35,18 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     }
   }
 
-  const addMaterial = async (materialId: string, amount: number): Promise<void> => {
+  const addMaterial = async (
+    materialId: string,
+    amount: number,
+    stationId: string | undefined,
+  ): Promise<void> => {
     if (assembly.value) {
       await performSimpleRequest(`/assemblies/${assembly.value.id}`, {
         method: 'PATCH',
         body: {
           materialId,
           amount,
+          stationId,
         },
       })
     }
@@ -51,6 +56,22 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     if (assembly.value) {
       await performSimpleRequest(`/assemblies/${assembly.value.id}/${contributionId}`, {
         method: 'DELETE',
+      })
+    }
+  }
+
+  const editContribution = async (
+    contributionId: string,
+    amount: number,
+    stationId: string | undefined,
+  ): Promise<void> => {
+    if (assembly.value) {
+      await performSimpleRequest(`/assemblies/${assembly.value.id}/${contributionId}`, {
+        method: 'PATCH',
+        body: {
+          amount,
+          stationId,
+        },
       })
     }
   }
@@ -80,7 +101,7 @@ export const useAssembliesStore = defineStore('assemblies', () => {
                   amount: data.addedAmount,
                   userId: data.contributorId,
                   username: data.contributorUsername,
-                  station: undefined,
+                  station: data.station,
                   addedAt: contribution.contributedAt,
                 },
                 ...material.contributions,
@@ -148,6 +169,7 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     getAssembly,
     addMaterial,
     deleteContribution,
+    editContribution,
     onContributionMessage,
     onDeleteContributionMessage,
     clear,

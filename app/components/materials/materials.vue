@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const assembliesStore = useAssembliesStore()
 const { materials } = storeToRefs(assembliesStore)
-const { addMaterial, deleteContribution } = assembliesStore
+const { addMaterial, deleteContribution, editContribution } = assembliesStore
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
@@ -26,7 +26,7 @@ const onMaterialClose = () => {
       :key="material.id"
       :material
       :user-id="user.id"
-      @add="(id, amount) => addMaterial(id, amount)"
+      @add="addMaterial"
       @click="onMaterialClick" />
   </ul>
   <Teleport to="#teleports">
@@ -37,7 +37,8 @@ const onMaterialClose = () => {
         extended
         :material="selectedMaterial"
         :user-id="user.id"
-        @add="(id, amount) => addMaterial(id, amount)"
+        @add="addMaterial"
+        @edit="editContribution"
         @close="onMaterialClose"
         @delete="deleteContribution" />
     </div>

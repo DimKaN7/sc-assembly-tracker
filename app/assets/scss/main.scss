@@ -83,4 +83,17 @@ html {
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
   }
+
+  .v-popper--theme-dropdown .v-popper__inner {
+    background-color: transparent !important;
+  }
+  .v-popper {
+    &__inner {
+      border: none !important;
+    }
+
+    &__arrow-container {
+      display: none;
+    }
+  }
 }

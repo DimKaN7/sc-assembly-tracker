@@ -101,6 +101,10 @@ defineEmits<{
         td {
           padding: 10px 5px;
           height: 40px;
+
+          &:not(:last-child) {
+            text-align: center;
+          }
         }
       }
     }

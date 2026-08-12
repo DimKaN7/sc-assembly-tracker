@@ -6,17 +6,16 @@ const { material, extended = false } = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  add: [materialId: string, amount: number]
+  add: [materialId: string, amount: number, stationId: string | undefined]
   click: [material: MaterialResponse]
   close: []
-  edit: [contributionId: string, newAmount: number, newStation: string]
+  edit: [contributionId: string, newAmount: number, newStationId: string | undefined]
   delete: [contributionId: string]
 }>()
 
 const amount = ref<number>()
-const stationTitle = ref<string>('')
-const station = ref<TitleValue<number>>()
-const isEditing = ref<boolean>(false)
+const station = ref<TitleValue<string>>()
+const contributionId = ref<string>()
 
 const progressValue = computed<string>(() => `${material.progress}%`)
 const actualCount = computed<string>(() => `${material.actualCount} ${material.measure}`)
@@ -24,23 +23,26 @@ const requiredCount = computed<string>(() => `${material.requiredCount} ${materi
 
 const onAddClick = () => {
   if (amount.value && amount.value > 0) {
-    emits('add', material.id, +amount.value)
-    amount.value = undefined
-    station.value = undefined
-    stationTitle.value = ''
+    if (contributionId.value) {
+      emits('edit', contributionId.value, amount.value, station.value?.value)
+    } else {
+      emits('add', material.id, +amount.value, station.value?.value)
+      amount.value = undefined
+      station.value = undefined
+    }
   }
 }
 
 const onCancelClick = () => {
-  isEditing.value = false
+  contributionId.value = undefined
   amount.value = undefined
-  stationTitle.value = ''
+  station.value = undefined
 }
 
 const onEditClick = (contribution: MaterialContributionResponse) => {
-  isEditing.value = true
+  contributionId.value = contribution.id
   amount.value = contribution.amount
-  stationTitle.value = contribution.station?.title ?? ''
+  station.value = contribution.station
 }
 </script>
 
@@ -76,10 +78,12 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
           :placeholder="`Количество(${material.measure})`"
           :min="0"
           type="number" />
-        <input
+        <InputAutocomplete
           :id="`${material.id}-station`"
-          v-model="stationTitle"
-          placeholder="Станция" />
+          v-model="station"
+          placeholder="Станция"
+          type="text"
+          :fetch-func="findStations" />
       </div>
       <div class="material__buttons">
         <button
@@ -89,7 +93,7 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
           <ISharedSave />
         </button>
         <button
-          v-if="isEditing"
+          v-if="contributionId"
           class="material__add"
           title="Отмена"
           @click.stop="onCancelClick">
