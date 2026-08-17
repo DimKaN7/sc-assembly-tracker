@@ -26,6 +26,14 @@ html {
   a {
     all: unset;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Nimbus';
+    font-size: 14px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    outline: none;
   }
 
   .inline,
@@ -74,5 +82,18 @@ html {
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .v-popper--theme-dropdown .v-popper__inner {
+    background-color: transparent !important;
+  }
+  .v-popper {
+    &__inner {
+      border: none !important;
+    }
+
+    &__arrow-container {
+      display: none;
+    }
   }
 }

@@ -1,26 +1,48 @@
 <script setup lang="ts">
 const { material, extended = false } = defineProps<{
   material: MaterialResponse
+  userId: string
   extended?: boolean
 }>()
 
 const emits = defineEmits<{
-  add: [materialId: string, amount: number]
+  add: [materialId: string, amount: number, stationId: string | undefined]
   click: [material: MaterialResponse]
   close: []
+  edit: [contributionId: string, newAmount: number, newStationId: string | undefined]
+  delete: [contributionId: string]
 }>()
 
-const amount = ref<string>('')
+const amount = ref<number>()
+const station = ref<TitleValue<string>>()
+const contributionId = ref<string>()
 
 const progressValue = computed<string>(() => `${material.progress}%`)
 const actualCount = computed<string>(() => `${material.actualCount} ${material.measure}`)
 const requiredCount = computed<string>(() => `${material.requiredCount} ${material.measure}`)
 
 const onAddClick = () => {
-  if (amount.value) {
-    emits('add', material.id, +amount.value)
+  if (amount.value && amount.value > 0) {
+    if (contributionId.value) {
+      emits('edit', contributionId.value, amount.value, station.value?.value)
+    } else {
+      emits('add', material.id, +amount.value, station.value?.value)
+      amount.value = undefined
+      station.value = undefined
+    }
   }
-  amount.value = ''
+}
+
+const onCancelClick = () => {
+  contributionId.value = undefined
+  amount.value = undefined
+  station.value = undefined
+}
+
+const onEditClick = (contribution: MaterialContributionResponse) => {
+  contributionId.value = contribution.id
+  amount.value = contribution.amount
+  station.value = contribution.station
 }
 </script>
 
@@ -49,29 +71,43 @@ const onAddClick = () => {
       <Progress :progress-value />
     </div>
     <div class="material__actions">
-      <input
-        :id="`${material.id}-amount`"
-        v-model="amount"
-        :placeholder="`Количество(${material.measure})`"
-        type="number" />
-      <button
-        class="material__add"
-        @click.stop="onAddClick">
-        +
-      </button>
+      <div class="material__inputs">
+        <input
+          :id="`${material.id}-amount`"
+          v-model="amount"
+          :placeholder="`Количество(${material.measure})`"
+          :min="0"
+          type="number" />
+        <InputAutocomplete
+          :id="`${material.id}-station`"
+          v-model="station"
+          placeholder="Станция"
+          type="text"
+          :fetch-func="findStations" />
+      </div>
+      <div class="material__buttons">
+        <button
+          class="material__add"
+          title="Сохранить"
+          @click.stop="onAddClick">
+          <ISharedSave />
+        </button>
+        <button
+          v-if="contributionId"
+          class="material__add"
+          title="Отмена"
+          @click.stop="onCancelClick">
+          <ISharedCancel />
+        </button>
+      </div>
     </div>
-    <div
+    <CardMaterialExtension
       v-if="extended"
-      class="material__contributions scroll-y">
-      <ul>
-        <li
-          v-for="c in material.contributions"
-          :key="c.userId">
-          <span class="name">{{ c.username }}</span>
-          <span class="amount">{{ `${c.amount} ${material.measure}` }}</span>
-        </li>
-      </ul>
-    </div>
+      :contributions="material.contributions"
+      :measure="material.measure"
+      :user-id
+      @edit="onEditClick"
+      @delete="$emit('delete', $event.id)" />
   </li>
 </template>
 
@@ -86,34 +122,11 @@ const onAddClick = () => {
   gap: 16px;
   position: relative;
 
-  &__contributions {
-    width: 100%;
+  &__buttons {
     display: flex;
-    max-height: 200px;
-
-    > ul {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      list-style-type: none;
-      gap: 10px;
-
-      > li {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .name,
-        .amount {
-          font-size: 16px;
-          color: #fff;
-        }
-
-        .amount {
-          font-family: LiberationMono;
-        }
-      }
-    }
+    flex-direction: column;
+    flex: 0 0 36px;
+    gap: 8px;
   }
 
   &__close {
@@ -126,23 +139,30 @@ const onAddClick = () => {
   }
 
   &.extended {
-    width: min(450px, 90%);
+    width: min(800px, 90%);
   }
 
   &__add {
-    padding: 10px 16px;
+    height: 36px;
     background-color: #00f2ff;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #0b0e14;
     font-weight: 700;
-    flex: 0 0 auto;
+    flex: 0 0 36px;
+    border-radius: 10px;
+
+    > svg {
+      width: 20px;
+    }
   }
 
-  &__actions {
+  &__inputs {
     display: flex;
+    flex-direction: column;
     gap: 8px;
+    flex: 1 1 0;
 
     > input {
       all: unset;
@@ -163,6 +183,12 @@ const onAddClick = () => {
         margin: 0;
       }
     }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
   }
 
   &__actual,

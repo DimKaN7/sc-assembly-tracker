@@ -36,21 +36,33 @@ export interface MaterialResponse {
   contributions: MaterialContributionResponse[]
 }
 
-export interface NewContributionResponse {
+export interface NewContributionResponse extends Omit<DeletedContributionResponse, 'Id'> {
+  contributorId: string
+  addedAmount: number
+  contributorUsername: string
+  station?: TitleValue<string>
+}
+
+export interface DeletedContributionResponse {
+  id: string
   assemblyId: string
   materialId: string
   newAmount: number
   assemblyProgress: number
   materialProgress: number
   contributorsCount: number
-  contributorId: string
-  addedAmount: number
-  contributorUsername: string
+}
+
+export interface UpdatedContributionResponse extends DeletedContributionResponse {
+  station?: TitleValue<string>
+  newMaterialAmount: number
 }
 
 export interface MaterialContributionResponse {
+  id: string
   userId: string
   username: string
   amount: number
-  measure: string
+  station?: TitleValue<string>
+  addedAt: number
 }
