@@ -1,10 +1,8 @@
 export default () => {
   const { assembliesEventsUrl } = useRuntimeConfig().public
 
-  const { onContributionMessage, onDeleteContributionMessage } = useAssembliesStore()
-
-  const userStore = useUserStore()
-  const { user } = storeToRefs(userStore)
+  const { onContributionMessage, onDeletedContributionMessage, onUpdatedContributionMessage } =
+    useAssembliesUpdates()
 
   const callbacks: Map<string, (data: unknown | undefined) => void> = new Map([
     [
@@ -14,40 +12,13 @@ export default () => {
     ],
     [
       'contribution_deleted',
-      (data) => onDeleteContributionMessage(data as DeletedContributionResponse | undefined),
+      (data) => onDeletedContributionMessage(data as DeletedContributionResponse | undefined),
+    ],
+    [
+      'contribution_updated',
+      (data) => onUpdatedContributionMessage(data as UpdatedContributionResponse | undefined),
     ],
   ])
 
-  let eventSource: EventSource | undefined = undefined
-
-  watch(
-    user,
-    async (val, prev) => {
-      if (val && !prev) {
-        eventSource = new EventSource(assembliesEventsUrl, {
-          withCredentials: true,
-        })
-        eventSource.onmessage = (event) => {
-          const data = JSON.parse(event.data) as SSEEvent<unknown>
-          if (data) {
-            const callback = callbacks.get(data.type)
-            if (callback) {
-              callback(data.data)
-            }
-          }
-        }
-      } else if (prev && !val && eventSource) {
-        eventSource.close()
-      }
-    },
-    {
-      immediate: true,
-    },
-  )
-
-  onBeforeUnmount(() => {
-    if (eventSource) {
-      eventSource.close()
-    }
-  })
+  useEvents(assembliesEventsUrl, callbacks)
 }

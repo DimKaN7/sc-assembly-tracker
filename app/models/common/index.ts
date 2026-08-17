@@ -25,3 +25,5 @@ export interface TitleValue<T> {
   title: string
   value: T
 }
+
+export type SSECallbacks = Map<string, (data: unknown | undefined) => void>

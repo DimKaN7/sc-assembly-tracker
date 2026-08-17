@@ -53,6 +53,11 @@ export interface DeletedContributionResponse {
   contributorsCount: number
 }
 
+export interface UpdatedContributionResponse extends DeletedContributionResponse {
+  station?: TitleValue<string>
+  newMaterialAmount: number
+}
+
 export interface MaterialContributionResponse {
   id: string
   userId: string

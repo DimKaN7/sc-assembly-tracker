@@ -26,6 +26,10 @@ const onInput = useDebounceFn(async () => {
       variants.value = response
     }
   } else {
+    if (!searchValue.value) {
+      model.value = undefined
+    }
+
     variantsShown.value = false
     variants.value = []
   }
