@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import PencilIcon from '@gravity-ui/icons/svgs/pencil.svg'
+import TrashBinIcon from '@gravity-ui/icons/svgs/trash-bin.svg'
+
 defineProps<{
   contributions: MaterialContributionResponse[]
   measure: string
@@ -59,13 +62,13 @@ defineEmits<{
                 class="flex items-center justify-center"
                 title="Редактировать"
                 @click="$emit('edit', c)">
-                <ISharedEdit class="h-full" />
+                <PencilIcon class="h-full text-white" />
               </button>
               <button
                 class="flex items-center justify-center"
                 title="Удалить"
                 @click="$emit('delete', c)">
-                <ISharedDelete class="h-full" />
+                <TrashBinIcon class="h-full text-white" />
               </button>
             </div>
           </td>

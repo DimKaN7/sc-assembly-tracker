@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import CubeIcon from '@gravity-ui/icons/svgs/cube.svg'
+import XmarkIcon from '@gravity-ui/icons/svgs/xmark.svg'
+import FloppyDiskIcon from '@gravity-ui/icons/svgs/floppy-disk.svg'
+import BanIcon from '@gravity-ui/icons/svgs/ban.svg'
+
 const { material, extended = false } = defineProps<{
   material: MaterialResponse
   userId: string
@@ -56,14 +61,14 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
       v-if="extended"
       class="absolute right-0 top-0 h-[32px] w-[32px] -translate-y-full translate-x-full"
       @click.stop="$emit('close')">
-      <ISharedClose />
+      <XmarkIcon class="text-white" />
     </button>
     <button
       class="flex h-[40px] w-full items-start gap-[10px]"
       @click="$emit('click', material)">
       <div
         class="flex h-[40px] flex-[0_0_40px] items-center justify-center border-[1px] border-solid border-[#1e232d] bg-[#1e232d] p-[10px]">
-        <IMaterial />
+        <CubeIcon class="text-[#00f2ff]" />
       </div>
       <span class="line-clamp-2 font-bold text-white">{{ material.name }}</span>
       <span class="ml-auto font-[LiberationMono] text-[16px] text-[#00f2ff]">
@@ -98,14 +103,14 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
           class="flex h-[36px] flex-[0_0_36px] items-center justify-center rounded-[10px] bg-[#00f2ff] font-bold text-[#0b0e14]"
           title="Сохранить"
           @click.stop="onAddClick">
-          <ISharedSave class="w-[20px]" />
+          <FloppyDiskIcon class="w-[20px] text-black" />
         </button>
         <button
           v-if="contributionId"
           class="flex h-[36px] flex-[0_0_36px] items-center justify-center rounded-[10px] bg-[#00f2ff] font-bold text-[#0b0e14]"
           title="Отмена"
           @click.stop="onCancelClick">
-          <ISharedCancel class="w-[20px]" />
+          <BanIcon class="w-[20px] text-black" />
         </button>
       </div>
     </div>

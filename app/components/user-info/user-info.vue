@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ArrowRightFromSquareIcon from '@gravity-ui/icons/svgs/arrow-right-from-square.svg'
+
 defineProps<{
   user: UserResponse
 }>()
@@ -14,7 +16,7 @@ defineEmits<{
     <button
       class="flex h-[20px] w-[20px] items-center justify-center"
       @click="$emit('logoutClick')">
-      <IHeaderLogout />
+      <ArrowRightFromSquareIcon class="text-[#94a3b8]" />
     </button>
   </div>
 </template>

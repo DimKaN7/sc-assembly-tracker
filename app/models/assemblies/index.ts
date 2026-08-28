@@ -9,6 +9,7 @@ export interface AssemblyResponse {
   description: string
   progress: number
   contributorsCount: number
+  isPublic: boolean
 }
 
 export interface ContributionResponse {

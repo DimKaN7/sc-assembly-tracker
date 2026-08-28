@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import PulseIcon from '@gravity-ui/icons/svgs/pulse.svg'
+
 const assembliesStore = useAssembliesStore()
 const { contributions, assembly } = storeToRefs(assembliesStore)
 const { loadContributions } = assembliesStore
@@ -15,7 +17,7 @@ useIntersectionObserver(sentinel, async ([entry]) => {
 <template>
   <aside class="flex h-full flex-[0_0_320px] flex-col border-[1px] border-solid border-[#1e232d]">
     <div class="flex items-center gap-[10px] p-[24px]">
-      <IActivity class="h-[16px] w-[16px]" />
+      <PulseIcon class="h-[16px] w-[16px] text-[#00f2ff]" />
       <span class="font-bold uppercase text-white">Лента активности</span>
     </div>
     <div class="flex flex-[1_1_0] overflow-hidden p-[0_19px_24px_24px]">
