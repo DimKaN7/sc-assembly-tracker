@@ -13,15 +13,15 @@ useIntersectionObserver(sentinel, async ([entry]) => {
 </script>
 
 <template>
-  <aside class="activity">
-    <div class="activity__header">
-      <IActivity />
-      <span>Лента активности</span>
+  <aside class="flex h-full flex-[0_0_320px] flex-col border-[1px] border-solid border-[#1e232d]">
+    <div class="flex items-center gap-[10px] p-[24px]">
+      <IActivity class="h-[16px] w-[16px]" />
+      <span class="font-bold uppercase text-white">Лента активности</span>
     </div>
-    <div class="activity__content">
+    <div class="flex flex-[1_1_0] overflow-hidden p-[0_19px_24px_24px]">
       <ul
         v-if="contributions?.data.length"
-        class="activity__list scroll-y">
+        class="scroll-y flex w-full list-none flex-col gap-[24px]">
         <li
           v-for="contribution in contributions.data"
           :key="contribution.id">
@@ -29,68 +29,15 @@ useIntersectionObserver(sentinel, async ([entry]) => {
         </li>
         <li
           ref="sentinel"
-          class="sentinel" />
+          class="h-0 w-full" />
       </ul>
       <span
         v-else
-        class="activity__empty">
+        class="m-auto text-[20px] font-bold text-[#94a3b8]">
         Нет взносов
       </span>
     </div>
   </aside>
 </template>
 
-<style lang="scss" scoped>
-.activity {
-  flex: 0 0 320px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid #1e232d;
-
-  .sentinel {
-    width: 100%;
-    height: 0px;
-  }
-
-  &__list {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    list-style-type: none;
-  }
-
-  &__empty {
-    margin: auto;
-    color: #94a3b8;
-    font-weight: 700;
-    font-size: 20px;
-  }
-
-  &__content {
-    flex: 1 1 0;
-    display: flex;
-    overflow: hidden;
-    padding: 0 19px 24px 24px;
-  }
-
-  &__header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 24px;
-
-    > span {
-      font-weight: 700;
-      color: #fff;
-      text-transform: uppercase;
-    }
-
-    > svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

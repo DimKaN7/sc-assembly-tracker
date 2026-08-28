@@ -8,5 +8,6 @@
   "quoteProps": "preserve",
   "bracketSameLine": true,
   "singleAttributePerLine": true,
-  "htmlWhitespaceSensitivity": "ignore"
+  "htmlWhitespaceSensitivity": "ignore",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

@@ -59,7 +59,7 @@ watch(model, () => {
       <input
         :id
         v-model="searchValue"
-        class="autocomplete"
+        class="placeholder:text-[rgba(255, 255, 255, 0.5)] no-spinner flex-[1_0_0] border-[1px] border-solid border-[#1e232d] bg-[#0b0e14] p-[9px_12px] font-[LiberationMono] text-white"
         :placeholder
         :min
         :max
@@ -70,12 +70,12 @@ watch(model, () => {
     <template #popper>
       <ul
         ref="variants"
-        class="variants scroll-y">
+        class="scroll-y flex max-h-[200px] min-w-[200px] list-none flex-col bg-[#1e232d] p-[0_5px_0_10px]">
         <li
           v-for="v in variants"
           :key="v.value">
           <button
-            class="variant"
+            class="w-full py-[10px] text-white"
             @click="onVariantClick(v as TitleValue<T>)">
             {{ v.title }}
           </button>
@@ -88,41 +88,5 @@ watch(model, () => {
 <style lang="scss" scoped>
 .v-popper {
   display: flex !important;
-}
-
-.variants {
-  display: flex;
-  flex-direction: column;
-  list-style-type: none;
-  background-color: #1e232d;
-  padding-inline: 10px;
-  max-height: 200px;
-  min-width: 200px;
-
-  .variant {
-    width: 100%;
-    color: #fff;
-    padding-block: 10px;
-  }
-}
-
-.autocomplete {
-  all: unset;
-  flex: 1 0 0;
-  padding: 9px 12px;
-  border: 1px solid #1e232d;
-  background-color: #0b0e14;
-  color: #fff;
-  font-family: LiberationMono;
-
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
 }
 </style>

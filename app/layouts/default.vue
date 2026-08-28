@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <main class="app">
+  <main class="flex h-dvh w-full flex-col overflow-hidden bg-[#0b0e14]">
     <LayoutHeader />
-    <section class="app__content">
-      <div class="app__pages">
+    <section class="flex flex-[1_0_0] overflow-hidden">
+      <div class="flex-[1_1_0]">
         <NuxtPage />
       </div>
       <Activity />
@@ -12,24 +12,4 @@
   </main>
 </template>
 
-<style lang="scss" scoped>
-.app {
-  width: 100%;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  background-color: #0b0e14;
-  overflow: hidden;
-
-  &__pages {
-    flex: 1 1 0;
-  }
-
-  &__content {
-    flex: 1 0 0;
-    position: relative;
-    display: flex;
-    overflow: hidden;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

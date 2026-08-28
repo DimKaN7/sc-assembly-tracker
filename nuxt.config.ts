@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     'nuxt-svgo',
     '@vueuse/nuxt',
+    '@nuxtjs/tailwindcss',
   ],
   css: ['@/assets/scss/main.scss'],
   vite: {
@@ -24,8 +25,7 @@ export default defineNuxtConfig({
       preprocessorOptions: {
         scss: {
           additionalData: `
-            @use '~/assets/scss/fonts.scss';
-            @use '~/assets/scss/mixins/index.scss' as *;`,
+            @use '~/assets/scss/fonts.scss';`,
         },
       },
     },

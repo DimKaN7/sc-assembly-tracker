@@ -9,33 +9,14 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="user">
-    <span class="user__name">{{ user.username }}</span>
+  <div class="flex items-center gap-[24px]">
+    <span class="text-[16px] text-[#94a3b8]">{{ user.username }}</span>
     <button
-      class="user__logout"
+      class="flex h-[20px] w-[20px] items-center justify-center"
       @click="$emit('logoutClick')">
       <IHeaderLogout />
     </button>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.user {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-
-  &__name {
-    color: #94a3b8;
-    font-size: 16px;
-  }
-
-  &__logout {
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

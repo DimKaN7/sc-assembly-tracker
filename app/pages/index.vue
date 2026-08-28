@@ -11,7 +11,8 @@ onMounted(getAssemblies)
 </script>
 
 <template>
-  <section class="assemblies">
+  <section
+    class="grid h-full flex-[1_0_0] grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-[24px] p-[32px]">
     <CardAssembly
       v-for="assembly in assemblies"
       :key="assembly.id"
@@ -19,13 +20,4 @@ onMounted(getAssemblies)
   </section>
 </template>
 
-<style lang="scss" scoped>
-.assemblies {
-  flex: 1 0 0;
-  height: 100%;
-  padding: 32px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
-}
-</style>
+<style lang="scss" scoped></style>

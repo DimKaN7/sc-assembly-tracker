@@ -23,7 +23,9 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.16.0",
+    "@nuxtjs/tailwindcss": "^6.14.0",
     "eslint": "^10.8.0",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "sass": "^1.102.0",
     "vue-tsc": "^3.3.8"
   }

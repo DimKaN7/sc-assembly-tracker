@@ -47,34 +47,42 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
 </script>
 
 <template>
-  <li :class="['material', extended && 'extended']">
+  <li
+    :class="[
+      'relative flex h-fit flex-col gap-[16px] border-[1px] border-solid border-[#1e232d] bg-[#151921] p-[24px]',
+      extended && 'w-[90%] max-w-[800px]',
+    ]">
     <button
       v-if="extended"
-      class="material__close"
+      class="absolute right-0 top-0 h-[32px] w-[32px] -translate-y-full translate-x-full"
       @click.stop="$emit('close')">
       <ISharedClose />
     </button>
     <button
-      class="material__header"
+      class="flex h-[40px] w-full items-start gap-[10px]"
       @click="$emit('click', material)">
-      <div class="material__icon">
+      <div
+        class="flex h-[40px] flex-[0_0_40px] items-center justify-center border-[1px] border-solid border-[#1e232d] bg-[#1e232d] p-[10px]">
         <IMaterial />
       </div>
-      <span class="material__name">{{ material.name }}</span>
-      <span class="material__percent">{{ progressValue }}</span>
+      <span class="line-clamp-2 font-bold text-white">{{ material.name }}</span>
+      <span class="ml-auto font-[LiberationMono] text-[16px] text-[#00f2ff]">
+        {{ progressValue }}
+      </span>
     </button>
-    <div class="material__progress">
-      <div class="inline">
-        <span class="material__actual">{{ actualCount }}</span>
-        <span class="material__required">{{ requiredCount }}</span>
+    <div class="flex w-full flex-col gap-[5px]">
+      <div class="flex justify-between">
+        <span class="font-[LiberationMono] text-[#94a3b8]">{{ actualCount }}</span>
+        <span class="font-[LiberationMono] text-white">{{ requiredCount }}</span>
       </div>
       <Progress :progress-value />
     </div>
-    <div class="material__actions">
-      <div class="material__inputs">
+    <div class="flex items-start gap-[8px]">
+      <div class="flex flex-[1_1_0] flex-col gap-[8px]">
         <input
           :id="`${material.id}-amount`"
           v-model="amount"
+          class="placeholder:text-[rgba(255, 255, 255, 0.5)] flex-[1_1_auto] border-[1px] border-solid border-[#1e232d] bg-[#0b0e14] p-[9px_12px] font-[LiberationMono] leading-[16px] text-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           :placeholder="`Количество(${material.measure})`"
           :min="0"
           type="number" />
@@ -85,19 +93,19 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
           type="text"
           :fetch-func="findStations" />
       </div>
-      <div class="material__buttons">
+      <div class="flex flex-[0_0_36px] flex-col gap-[8px]">
         <button
-          class="material__add"
+          class="flex h-[36px] flex-[0_0_36px] items-center justify-center rounded-[10px] bg-[#00f2ff] font-bold text-[#0b0e14]"
           title="Сохранить"
           @click.stop="onAddClick">
-          <ISharedSave />
+          <ISharedSave class="w-[20px]" />
         </button>
         <button
           v-if="contributionId"
-          class="material__add"
+          class="flex h-[36px] flex-[0_0_36px] items-center justify-center rounded-[10px] bg-[#00f2ff] font-bold text-[#0b0e14]"
           title="Отмена"
           @click.stop="onCancelClick">
-          <ISharedCancel />
+          <ISharedCancel class="w-[20px]" />
         </button>
       </div>
     </div>
@@ -111,146 +119,4 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
   </li>
 </template>
 
-<style lang="scss" scoped>
-.material {
-  display: flex;
-  flex-direction: column;
-  height: fit-content;
-  padding: 24px;
-  background-color: #151921;
-  border: 1px solid #1e232d;
-  gap: 16px;
-  position: relative;
-
-  &__buttons {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 36px;
-    gap: 8px;
-  }
-
-  &__close {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 0;
-    right: 0;
-    transform: translate(100%, -100%);
-  }
-
-  &.extended {
-    width: min(800px, 90%);
-  }
-
-  &__add {
-    height: 36px;
-    background-color: #00f2ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #0b0e14;
-    font-weight: 700;
-    flex: 0 0 36px;
-    border-radius: 10px;
-
-    > svg {
-      width: 20px;
-    }
-  }
-
-  &__inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1 1 0;
-
-    > input {
-      all: unset;
-      padding: 9px 12px;
-      border: 1px solid #1e232d;
-      background-color: #0b0e14;
-      color: #fff;
-      font-family: LiberationMono;
-      flex: 1 1 auto;
-
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-      }
-
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-    }
-  }
-
-  &__actions {
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-  }
-
-  &__actual,
-  &__required {
-    font-family: LiberationMono;
-  }
-
-  &__actual {
-    color: #94a3b8;
-  }
-
-  &__required {
-    color: #fff;
-  }
-
-  &__progress {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    .inline {
-      justify-content: space-between;
-    }
-  }
-
-  &__percent {
-    color: #00f2ff;
-    font-family: LiberationMono;
-    font-size: 16px;
-    margin-left: auto;
-  }
-
-  &__name {
-    @include text-overflow-ellipsis(2);
-    color: #fff;
-    font-weight: 700;
-  }
-
-  &__icon {
-    height: 40px;
-    flex: 0 0 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border: 1px solid #1e232d;
-
-    background: #1e232d;
-
-    > svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &__header {
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    height: 40px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

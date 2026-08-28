@@ -20,7 +20,7 @@ const onMaterialClose = () => {
 <template>
   <ul
     v-if="user"
-    class="materials scroll-y">
+    class="scroll-y grid list-none grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-[24px] p-[32px_13.5px_32px_32px]">
     <CardMaterial
       v-for="material in materials"
       :key="material.id"
@@ -45,12 +45,4 @@ const onMaterialClose = () => {
   </Teleport>
 </template>
 
-<style lang="scss" scoped>
-.materials {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
-  padding: 32px 13.5px 32px 32px;
-  list-style-type: none;
-}
-</style>
+<style lang="scss" scoped></style>

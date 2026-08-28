@@ -12,40 +12,60 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="extension scroll-y">
-    <table>
-      <thead>
+  <div class="scroll-y flex max-h-[200px] w-full">
+    <table class="flex-[1_0_0] border-collapse text-[#94a3b8]">
+      <thead class="sticky top-0 bg-[#151921] text-white">
         <tr>
-          <th :style="{ width: '20%' }">Внес</th>
-          <th :style="{ width: '10%' }">Количество</th>
-          <th :style="{ width: '20%' }">Дата</th>
-          <th :style="{ width: '40%' }">Станция</th>
-          <th :style="{ width: '10%' }">Действия</th>
+          <th
+            class="p-[5px]"
+            :style="{ width: '20%' }">
+            Внес
+          </th>
+          <th
+            class="p-[5px]"
+            :style="{ width: '10%' }">
+            Количество
+          </th>
+          <th
+            class="p-[5px]"
+            :style="{ width: '20%' }">
+            Дата
+          </th>
+          <th
+            class="p-[5px]"
+            :style="{ width: '40%' }">
+            Станция
+          </th>
+          <th
+            class="p-[5px]"
+            :style="{ width: '10%' }">
+            Действия
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr
           v-for="c in contributions"
           :key="c.id">
-          <td>{{ c.username }}</td>
-          <td>{{ c.amount }}</td>
-          <td>{{ parseDate(c.addedAt) }}</td>
-          <td>{{ c.station?.title ?? '-' }}</td>
-          <td>
+          <td class="h-[40px] p-[10px_5px] text-center">{{ c.username }}</td>
+          <td class="h-[40px] p-[10px_5px] text-center">{{ c.amount }}</td>
+          <td class="h-[40px] p-[10px_5px] text-center">{{ parseDate(c.addedAt) }}</td>
+          <td class="h-[40px] p-[10px_5px] text-center">{{ c.station?.title ?? '-' }}</td>
+          <td class="h-[40px] p-[10px_5px]">
             <div
               v-if="c.userId === userId"
-              class="extension__actions">
+              class="flex h-full justify-end gap-[10px]">
               <button
-                class="extension__action"
+                class="flex items-center justify-center"
                 title="Редактировать"
                 @click="$emit('edit', c)">
-                <ISharedEdit />
+                <ISharedEdit class="h-full" />
               </button>
               <button
-                class="extension__action"
+                class="flex items-center justify-center"
                 title="Удалить"
                 @click="$emit('delete', c)">
-                <ISharedDelete />
+                <ISharedDelete class="h-full" />
               </button>
             </div>
           </td>
@@ -55,89 +75,4 @@ defineEmits<{
   </div>
 </template>
 
-<style lang="scss" scoped>
-.extension {
-  width: 100%;
-  display: flex;
-  max-height: 200px;
-
-  &__action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    > svg {
-      height: 100%;
-    }
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    height: 100%;
-    gap: 10px;
-  }
-
-  > table {
-    flex: 1 0 0;
-    color: #94a3b8;
-    border-collapse: collapse;
-
-    thead {
-      position: sticky;
-      top: 0;
-      background-color: #151921;
-      color: #fff;
-
-      tr {
-        th {
-          padding: 5px;
-        }
-      }
-    }
-
-    tbody {
-      tr {
-        td {
-          padding: 10px 5px;
-          height: 40px;
-
-          &:not(:last-child) {
-            text-align: center;
-          }
-        }
-      }
-    }
-  }
-
-  > ul {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    gap: 10px;
-
-    > li {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .info {
-        display: flex;
-        align-items: flex-end;
-        gap: 10px;
-
-        &__name,
-        &__amount {
-          font-size: 16px;
-          color: #fff;
-        }
-
-        &__amount {
-          font-family: LiberationMono;
-        }
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

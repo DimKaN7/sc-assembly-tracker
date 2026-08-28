@@ -9,84 +9,27 @@ const progressValue = computed<string>(() => `${assembly.progress}%`)
 <template>
   <NuxtLink
     :to="`/${assembly.id}`"
-    class="assembly">
-    <div class="assembly__header">
-      <h2 class="assembly__name">{{ assembly.name }}</h2>
-      <span class="assembly__description">{{ assembly.description }}</span>
-      <span class="assembly__contributors">
-        <span class="count">{{ assembly.contributorsCount }}</span>
-        <span class="title">
+    class="flex h-fit flex-col gap-[16px] border-[1px] border-solid border-[#1e232d] bg-[#151921] p-[24px]">
+    <div class="flex flex-col gap-[5px]">
+      <h2 class="text-[16px] font-bold text-white">{{ assembly.name }}</h2>
+      <span class="text-[#94a3b8]">{{ assembly.description }}</span>
+      <span>
+        <span class="font-[LiberationMono] text-white">{{ assembly.contributorsCount }}</span>
+        <span class="text-[#94a3b8]">
           &nbsp;{{ getNoun(assembly.contributorsCount, 'участник', 'участника', 'участников') }}
         </span>
       </span>
     </div>
-    <div class="assembly__progress">
-      <div class="inline">
-        <span class="title">Прогресс</span>
-        <span class="value">{{ progressValue }}</span>
+    <div class="flex flex-col gap-[5px]">
+      <div class="flex items-end justify-between">
+        <span class="font-bold text-[#00f2ff]">Прогресс</span>
+        <span class="font-[LiberationMono] text-[16px] font-[20px] text-[#00f2ff]">
+          {{ progressValue }}
+        </span>
       </div>
       <Progress :progress-value />
     </div>
   </NuxtLink>
 </template>
 
-<style lang="scss" scoped>
-.assembly {
-  display: flex;
-  flex-direction: column;
-  height: fit-content;
-  padding: 24px;
-  background-color: #151921;
-  border: 1px solid #1e232d;
-  gap: 16px;
-
-  &__contributors {
-    .count {
-      color: #fff;
-      font-family: LiberationMono;
-    }
-
-    .title {
-      color: #94a3b8;
-    }
-  }
-
-  &__progress {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    .inline {
-      justify-content: space-between;
-      align-items: flex-end;
-
-      .title,
-      .value {
-        color: #00f2ff;
-        font-weight: 700;
-      }
-
-      .value {
-        font-size: 20px;
-        font-family: LiberationMono;
-      }
-    }
-  }
-
-  &__header {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  &__name {
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-  }
-
-  &__description {
-    color: #94a3b8;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
