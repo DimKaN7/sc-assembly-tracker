@@ -12,7 +12,7 @@ onMounted(getAssemblies)
 
 <template>
   <section
-    class="grid h-full flex-[1_0_0] grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-[24px] p-[32px]">
+    class="grid h-full flex-[1_0_0] grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-[24px] p-[32px]">
     <CardAssembly
       v-for="assembly in assemblies"
       :key="assembly.id"

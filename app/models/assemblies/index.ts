@@ -10,6 +10,7 @@ export interface AssemblyResponse {
   progress: number
   contributorsCount: number
   isPublic: boolean
+  isOwner: boolean
 }
 
 export interface ContributionResponse {
