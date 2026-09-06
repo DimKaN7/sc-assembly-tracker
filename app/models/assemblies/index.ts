@@ -1,8 +1,3 @@
-export interface AssembliesResponse {
-  assemblies: AssemblyResponse[]
-  contributions: HasNextPageResponse<ContributionResponse>
-}
-
 export interface AssemblyResponse {
   id: string
   name: string

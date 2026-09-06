@@ -27,3 +27,13 @@ export interface TitleValue<T> {
 }
 
 export type SSECallbacks = Map<string, (data: unknown | undefined) => void>
+
+export type SidebarItem = {
+  to: string
+  title: string
+  icon: string
+  selectedRoutesNames?: string[]
+  selectedRoutesPaths?: string[]
+}
+
+export type AssemblyType = 'all' | 'public' | 'private'

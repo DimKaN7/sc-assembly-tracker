@@ -5,11 +5,14 @@ export const useAssembliesStore = defineStore('assemblies', () => {
 
   const materials = computed<MaterialResponse[]>(() => assembly.value?.materials ?? [])
 
-  const getAssemblies = async (): Promise<void> => {
-    const response = await performRequest<AssembliesResponse>('/assemblies')
+  const getAssemblies = async (type: AssemblyType = 'all'): Promise<void> => {
+    const response = await performRequest<AssemblyResponse[]>('/assemblies', {
+      query: {
+        type,
+      },
+    })
     if (response) {
-      assemblies.value = response.assemblies
-      contributions.value = response.contributions
+      assemblies.value = response
     }
   }
 

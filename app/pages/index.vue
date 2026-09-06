@@ -2,21 +2,11 @@
 useSeoMeta({
   title: 'Главная страница',
 })
-
-const assembliesStore = useAssembliesStore()
-const { assemblies } = storeToRefs(assembliesStore)
-const { getAssemblies } = assembliesStore
-
-onMounted(getAssemblies)
 </script>
 
 <template>
-  <section
-    class="grid h-full flex-[1_0_0] grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-[24px] p-[32px]">
-    <CardAssembly
-      v-for="assembly in assemblies"
-      :key="assembly.id"
-      :assembly />
+  <section class="flex h-full w-full items-center justify-center text-[32px] uppercase text-white">
+    здесь будет описание сервиса, discord сервера и тд и тп
   </section>
 </template>
 

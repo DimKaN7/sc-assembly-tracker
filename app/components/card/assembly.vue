@@ -25,7 +25,7 @@ const accessIcon = computed(() =>
 
 <template>
   <NuxtLink
-    :to="`/${assembly.id}`"
+    :to="`/assembly/${assembly.id}`"
     class="flex h-fit flex-col gap-[16px] border-[1px] border-solid border-[#1e232d] bg-[#151921] p-[24px]">
     <div class="flex flex-col gap-[5px]">
       <div class="flex items-center justify-between gap-[10px]">
