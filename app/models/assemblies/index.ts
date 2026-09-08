@@ -63,3 +63,9 @@ export interface MaterialContributionResponse {
   station?: TitleValue<string>
   addedAt: number
 }
+
+export interface NewAssemblyMaterial {
+  id: string
+  material: TitleValueWithData<string, string>
+  amount: number
+}

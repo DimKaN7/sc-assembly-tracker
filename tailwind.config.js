@@ -1,3 +1,8 @@
+import plugin from 'tailwindcss/plugin'
+import { buttons } from './app/assets/tailwind/buttons'
+import { tables } from './app/assets/tailwind/tables'
+import { inputs } from './app/assets/tailwind/inputs'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -9,5 +14,13 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addComponents }) {
+      addComponents({
+        ...buttons,
+        ...tables,
+        ...inputs,
+      })
+    }),
+  ],
 }

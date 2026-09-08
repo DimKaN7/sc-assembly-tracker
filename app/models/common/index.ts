@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'vue'
+
 export interface Problem {
   type: string
   title: string
@@ -26,6 +28,10 @@ export interface TitleValue<T> {
   value: T
 }
 
+export interface TitleValueWithData<T, U> extends TitleValue<T> {
+  data: U
+}
+
 export type SSECallbacks = Map<string, (data: unknown | undefined) => void>
 
 export type SidebarItem = {
@@ -37,3 +43,5 @@ export type SidebarItem = {
 }
 
 export type AssemblyType = 'all' | 'public' | 'private'
+
+export type TailwindCustomStyles = { [key: string]: CSSProperties }

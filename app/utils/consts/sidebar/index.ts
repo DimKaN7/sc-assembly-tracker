@@ -1,6 +1,7 @@
 import PersonsIcon from '@gravity-ui/icons/svgs/persons.svg'
 import PersonGearIcon from '@gravity-ui/icons/svgs/persons-lock.svg'
 import Layers3DiagonalIcon from '@gravity-ui/icons/svgs/layers-3-diagonal.svg'
+import SquarePlusIcon from '@gravity-ui/icons/svgs/square-plus.svg'
 
 export const sidebarItems: SidebarItem[] = [
   {
@@ -20,5 +21,11 @@ export const sidebarItems: SidebarItem[] = [
     title: 'Приватные сборки',
     icon: PersonGearIcon,
     selectedRoutesPaths: ['/assemblies/private'],
+  },
+  {
+    to: '/assembly/new',
+    title: 'Новая сборка',
+    icon: SquarePlusIcon,
+    selectedRoutesNames: ['assembly-new'],
   },
 ]

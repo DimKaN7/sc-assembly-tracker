@@ -5,11 +5,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="flex h-full w-full">
-    <div class="flex-[1_1_0]">
-      <NuxtPage />
-    </div>
-  </div>
+  <NuxtLayout name="with-activity" />
 </template>
 
 <style lang="scss" scoped></style>

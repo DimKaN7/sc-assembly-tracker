@@ -94,20 +94,21 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
         <InputAutocomplete
           :id="`${material.id}-station`"
           v-model="station"
+          class="placeholder:text-[rgba(255, 255, 255, 0.5)] no-spinner flex-[1_0_0] border-[1px] border-solid border-[#1e232d] bg-[#0b0e14] p-[9px_12px] font-[LiberationMono] text-white"
           placeholder="Станция"
           type="text"
           :fetch-func="findStations" />
       </div>
       <div class="flex flex-[0_0_36px] flex-col gap-[8px]">
         <button
-          class="flex h-[36px] flex-[0_0_36px] items-center justify-center rounded-[10px] bg-[#00f2ff] font-bold text-[#0b0e14]"
+          class="btn-accept h-[36px]"
           title="Сохранить"
           @click.stop="onAddClick">
           <FloppyDiskIcon class="w-[20px] text-black" />
         </button>
         <button
           v-if="contributionId"
-          class="flex h-[36px] flex-[0_0_36px] items-center justify-center rounded-[10px] bg-[#00f2ff] font-bold text-[#0b0e14]"
+          class="btn-accept h-[36px]"
           title="Отмена"
           @click.stop="onCancelClick">
           <BanIcon class="w-[20px] text-black" />

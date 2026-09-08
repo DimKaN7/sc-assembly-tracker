@@ -68,7 +68,7 @@ defineEmits<{
                 class="flex items-center justify-center"
                 title="Удалить"
                 @click="$emit('delete', c)">
-                <TrashBinIcon class="h-full text-white" />
+                <TrashBinIcon class="h-full text-[#EF4444]" />
               </button>
             </div>
           </td>
