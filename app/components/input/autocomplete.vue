@@ -1,4 +1,6 @@
 <script setup lang="ts" generic="T extends PropertyKey">
+import type { CSSProperties } from 'vue'
+
 defineOptions({
   inheritAttrs: false,
 })
@@ -9,6 +11,7 @@ const { id, fetchFunc, dropModelFunc } = defineProps<{
   type: string
   min?: number
   max?: number
+  popperStyle?: CSSProperties
   fetchFunc: (p: string) => Promise<TitleValue<T>[]>
   dropModelFunc?: () => void
 }>()
@@ -60,6 +63,7 @@ const onVariantClick = (v: TitleValue<T>) => {
 
 <template>
   <FloatingElement
+    :style="popperStyle"
     :shown="variantsShown"
     :distance="5">
     <template #default>

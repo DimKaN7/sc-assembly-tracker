@@ -69,3 +69,8 @@ export interface NewAssemblyMaterial {
   material: TitleValueWithData<string, string>
   amount: number
 }
+
+export interface NewAssemblyUser {
+  id: string
+  user: TitleValue<string>
+}
