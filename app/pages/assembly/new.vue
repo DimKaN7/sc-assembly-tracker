@@ -40,6 +40,22 @@ const onAddClick = () => {
     })
   }
 }
+
+const onSaveClick = async () => {
+  const response = await createAssembly(
+    name.value,
+    description.value,
+    isPublic.value,
+    users.value.map((u) => u.user.value),
+    materials.value.map((m) => ({
+      id: m.material.value,
+      amount: m.amount,
+    })),
+  )
+  if (response) {
+    await navigateTo(`/assembly/${response}`)
+  }
+}
 </script>
 
 <template>
@@ -47,7 +63,11 @@ const onAddClick = () => {
     <div class="flex flex-col gap-[24px]">
       <div class="flex items-center justify-between">
         <span class="text-[16px] font-bold text-white">Основная информация</span>
-        <button class="btn-accept-with-paddings self-end">Сохранить</button>
+        <button
+          class="btn-accept-with-paddings self-end"
+          @click="onSaveClick">
+          Сохранить
+        </button>
       </div>
       <div class="flex flex-col gap-[16px]">
         <InputBase
