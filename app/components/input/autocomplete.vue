@@ -19,7 +19,7 @@ const { id, fetchFunc, dropModelFunc } = defineProps<{
 const model = defineModel<TitleValue<T>>()
 const variantsShown = ref<boolean>(false)
 const variants = ref<TitleValue<T>[]>([])
-const searchValue = ref<string>()
+const searchValue = ref<string>(model.value?.title ?? '')
 const variantsCont = useTemplateRef('variants')
 const inputId = id ?? useId()
 

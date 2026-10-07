@@ -1,4 +1,5 @@
-export const createAssembly = (
+export const upsertAssembly = (
+  id: string | undefined,
   name: string,
   description: string,
   isPublic: boolean,
@@ -11,6 +12,7 @@ export const createAssembly = (
   performRequest<string>('/assemblies', {
     method: 'POST',
     body: {
+      id,
       name,
       description,
       isPublic,

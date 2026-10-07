@@ -23,6 +23,14 @@ export interface ExtendedAssemblyResponse extends Omit<AssemblyResponse, 'contri
   contributions: HasNextPageResponse<ContributionResponse>
 }
 
+export interface UpsertAssemblyDTO extends Omit<
+  AssemblyResponse,
+  'contributorsCount' | 'progress' | 'isOwner'
+> {
+  materials: NewAssemblyMaterial[]
+  users: NewAssemblyUser[]
+}
+
 export interface MaterialResponse {
   id: string
   name: string
