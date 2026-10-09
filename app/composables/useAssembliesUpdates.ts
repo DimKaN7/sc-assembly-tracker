@@ -44,7 +44,7 @@ export default () => {
         const a = assemblies.value.find((a) => a.id === data.assemblyId)
         if (a) {
           a.progress = data.assemblyProgress
-          a.contributorsCount = data.contributorsCount
+          a.usersCount = data.usersCount
         }
         if (contributions.value) {
           contributions.value.data = [contribution, ...contributions.value.data]
@@ -70,7 +70,7 @@ export default () => {
         const a = assemblies.value.find((a) => a.id === message.assemblyId)
         if (a) {
           a.progress = message.assemblyProgress
-          a.contributorsCount = message.contributorsCount
+          a.usersCount = message.usersCount
         }
         if (contributions.value) {
           removeContribution(contributions.value.data, message.id)
@@ -104,7 +104,7 @@ export default () => {
         const a = assemblies.value.find((a) => a.id === message.assemblyId)
         if (a) {
           a.progress = message.assemblyProgress
-          a.contributorsCount = message.contributorsCount
+          a.usersCount = message.usersCount
         }
       }
 

@@ -50,9 +50,9 @@ const accessIcon = computed(() =>
       </div>
       <span class="text-[#94a3b8]">{{ assembly.description }}</span>
       <span>
-        <span class="font-[LiberationMono] text-white">{{ assembly.contributorsCount }}</span>
+        <span class="font-[LiberationMono] text-white">{{ assembly.usersCount }}</span>
         <span class="text-[#94a3b8]">
-          &nbsp;{{ getNoun(assembly.contributorsCount, 'участник', 'участника', 'участников') }}
+          &nbsp;{{ getNoun(assembly.usersCount, 'участник', 'участника', 'участников') }}
         </span>
       </span>
     </div>

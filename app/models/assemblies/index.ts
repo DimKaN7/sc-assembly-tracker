@@ -3,7 +3,7 @@ export interface AssemblyResponse {
   name: string
   description: string
   progress: number
-  contributorsCount: number
+  usersCount: number
   isPublic: boolean
   isOwner: boolean
 }
@@ -18,14 +18,15 @@ export interface ContributionResponse {
   contributedAt: number
 }
 
-export interface ExtendedAssemblyResponse extends Omit<AssemblyResponse, 'contributorsCount'> {
+export interface ExtendedAssemblyResponse extends Omit<AssemblyResponse, 'usersCount'> {
   materials: MaterialResponse[]
   contributions: HasNextPageResponse<ContributionResponse>
+  users: TitleValue<string>[]
 }
 
 export interface UpsertAssemblyDTO extends Omit<
   AssemblyResponse,
-  'contributorsCount' | 'progress' | 'isOwner'
+  'usersCount' | 'progress' | 'isOwner'
 > {
   materials: NewAssemblyMaterial[]
   users: NewAssemblyUser[]
@@ -55,7 +56,7 @@ export interface DeletedContributionResponse {
   newAmount: number
   assemblyProgress: number
   materialProgress: number
-  contributorsCount: number
+  usersCount: number
 }
 
 export interface UpdatedContributionResponse extends DeletedContributionResponse {

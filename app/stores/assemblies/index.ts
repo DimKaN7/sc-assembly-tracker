@@ -31,10 +31,12 @@ export const useAssembliesStore = defineStore('assemblies', () => {
   }
 
   const getAssembly = async (id: string): Promise<void> => {
-    const response = await performRequest<ExtendedAssemblyResponse>(`/assemblies/${id}`)
-    if (response) {
-      assembly.value = response
-      contributions.value = response.contributions
+    if (!assembly.value || assembly.value.id !== id) {
+      const response = await performRequest<ExtendedAssemblyResponse>(`/assemblies/${id}`)
+      if (response) {
+        assembly.value = response
+        contributions.value = response.contributions
+      }
     }
   }
 

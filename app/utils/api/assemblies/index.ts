@@ -9,7 +9,7 @@ export const upsertAssembly = (
     amount: number
   }[],
 ) =>
-  performRequest<string>('/assemblies', {
+  performRequest<ExtendedAssemblyResponse>('/assemblies', {
     method: 'POST',
     body: {
       id,

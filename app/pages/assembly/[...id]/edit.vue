@@ -26,11 +26,14 @@ const assemblyToEdit = ref<UpsertAssemblyDTO>({
       value: m.id,
     },
   })),
-  users: [],
+  users: assembly.value!.users.map((u) => ({
+    id: u.value,
+    user: u,
+  })),
 })
 
 const onSaveClick = async () => {
-  await upsertAssembly(
+  const response = await upsertAssembly(
     assemblyToEdit.value.id,
     assemblyToEdit.value.name,
     assemblyToEdit.value.description,
@@ -41,6 +44,9 @@ const onSaveClick = async () => {
       amount: m.amount,
     })),
   )
+  if (response) {
+    assembly.value = response
+  }
 }
 </script>
 

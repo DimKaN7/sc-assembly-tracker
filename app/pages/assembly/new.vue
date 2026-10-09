@@ -3,7 +3,10 @@ useSeoMeta({
   title: 'Новая сборка',
 })
 
-const assembly = ref<UpsertAssemblyDTO>({
+const assembliesStore = useAssembliesStore()
+const { assembly } = storeToRefs(assembliesStore)
+
+const newAssembly = ref<UpsertAssemblyDTO>({
   id: '',
   name: '',
   description: '',
@@ -15,24 +18,25 @@ const assembly = ref<UpsertAssemblyDTO>({
 const onSaveClick = async () => {
   const response = await upsertAssembly(
     undefined,
-    assembly.value.name,
-    assembly.value.description,
-    assembly.value.isPublic,
-    assembly.value.users.map((u) => u.user.value),
-    assembly.value.materials.map((m) => ({
+    newAssembly.value.name,
+    newAssembly.value.description,
+    newAssembly.value.isPublic,
+    newAssembly.value.users.map((u) => u.user.value),
+    newAssembly.value.materials.map((m) => ({
       id: m.material.value,
       amount: m.amount,
     })),
   )
   if (response) {
-    await navigateTo(`/assembly/${response}`)
+    assembly.value = response
+    await navigateTo(`/assembly/${response.id}`)
   }
 }
 </script>
 
 <template>
   <AssemblyUpsert
-    v-model="assembly"
+    v-model="newAssembly"
     @save="onSaveClick" />
 </template>
 
