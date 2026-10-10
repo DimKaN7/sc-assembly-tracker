@@ -1,14 +1,11 @@
-export interface AssembliesResponse {
-  assemblies: AssemblyResponse[]
-  contributions: HasNextPageResponse<ContributionResponse>
-}
-
 export interface AssemblyResponse {
   id: string
   name: string
   description: string
   progress: number
-  contributorsCount: number
+  usersCount: number
+  isPublic: boolean
+  isOwner: boolean
 }
 
 export interface ContributionResponse {
@@ -21,9 +18,19 @@ export interface ContributionResponse {
   contributedAt: number
 }
 
-export interface ExtendedAssemblyResponse extends Omit<AssemblyResponse, 'contributorsCount'> {
+export interface ExtendedAssemblyResponse extends Omit<AssemblyResponse, 'usersCount'> {
   materials: MaterialResponse[]
   contributions: HasNextPageResponse<ContributionResponse>
+  users: TitleValue<string>[]
+  isArchived: boolean
+}
+
+export interface UpsertAssemblyDTO extends Omit<
+  AssemblyResponse,
+  'usersCount' | 'progress' | 'isOwner'
+> {
+  materials: NewAssemblyMaterial[]
+  users: NewAssemblyUser[]
 }
 
 export interface MaterialResponse {
@@ -50,7 +57,7 @@ export interface DeletedContributionResponse {
   newAmount: number
   assemblyProgress: number
   materialProgress: number
-  contributorsCount: number
+  usersCount: number
 }
 
 export interface UpdatedContributionResponse extends DeletedContributionResponse {
@@ -65,4 +72,15 @@ export interface MaterialContributionResponse {
   amount: number
   station?: TitleValue<string>
   addedAt: number
+}
+
+export interface NewAssemblyMaterial {
+  id: string
+  material: TitleValueWithData<string, string>
+  amount: number
+}
+
+export interface NewAssemblyUser {
+  id: string
+  user: TitleValue<string>
 }

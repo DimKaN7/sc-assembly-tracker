@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     'nuxt-svgo',
     '@vueuse/nuxt',
+    '@nuxtjs/tailwindcss',
   ],
   css: ['@/assets/scss/main.scss'],
   vite: {
@@ -24,14 +25,13 @@ export default defineNuxtConfig({
       preprocessorOptions: {
         scss: {
           additionalData: `
-            @use '~/assets/scss/fonts.scss';
-            @use '~/assets/scss/mixins/index.scss' as *;`,
+            @use '~/assets/scss/fonts.scss';`,
         },
       },
     },
   },
   imports: {
-    dirs: ['stores/**', 'composables/**', 'models/**', 'utils/api/**', 'utils/helpers/**'],
+    dirs: ['stores/**', 'composables/**', 'models/**', 'utils/**', 'utils/**'],
   },
   svgo: {
     autoImportPath: '@/assets/images/',
@@ -63,5 +63,11 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/**': { prerender: true },
+  },
+  router: {
+    options: {
+      linkActiveClass: 'unactive-link-class-placeholder',
+      linkExactActiveClass: 'unexact-link-class-placeholder',
+    },
   },
 })

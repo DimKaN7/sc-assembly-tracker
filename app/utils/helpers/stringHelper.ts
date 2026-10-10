@@ -6,3 +6,14 @@ export const getNoun = (num: number, one: string, two: string, five: string): st
   if (num >= 2 && num <= 4) return two
   return five
 }
+
+export const getAssemblyTypeStr = (type: AssemblyType): string => {
+  switch (type) {
+    case 'all':
+      return 'Все'
+    case 'private':
+      return 'Приватные'
+    default:
+      return 'Публичные'
+  }
+}

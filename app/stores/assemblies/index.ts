@@ -5,11 +5,14 @@ export const useAssembliesStore = defineStore('assemblies', () => {
 
   const materials = computed<MaterialResponse[]>(() => assembly.value?.materials ?? [])
 
-  const getAssemblies = async (): Promise<void> => {
-    const response = await performRequest<AssembliesResponse>('/assemblies')
+  const getAssemblies = async (type: AssemblyType = 'all'): Promise<void> => {
+    const response = await performRequest<AssemblyResponse[]>('/assemblies', {
+      query: {
+        type,
+      },
+    })
     if (response) {
-      assemblies.value = response.assemblies
-      contributions.value = response.contributions
+      assemblies.value = response
     }
   }
 
@@ -28,10 +31,12 @@ export const useAssembliesStore = defineStore('assemblies', () => {
   }
 
   const getAssembly = async (id: string): Promise<void> => {
-    const response = await performRequest<ExtendedAssemblyResponse>(`/assemblies/${id}`)
-    if (response) {
-      assembly.value = response
-      contributions.value = response.contributions
+    if (!assembly.value || assembly.value.id !== id) {
+      const response = await performRequest<ExtendedAssemblyResponse>(`/assemblies/${id}`)
+      if (response) {
+        assembly.value = response
+        contributions.value = response.contributions
+      }
     }
   }
 
@@ -76,6 +81,14 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     }
   }
 
+  const toggleAssemblyArchive = async (): Promise<void> => {
+    if (assembly.value) {
+      if (await toggleArchive(assembly.value.id)) {
+        assembly.value.isArchived = !assembly.value.isArchived
+      }
+    }
+  }
+
   const clear = (): void => {
     assemblies.value = []
     assembly.value = undefined
@@ -93,6 +106,7 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     addMaterial,
     deleteContribution,
     editContribution,
+    toggleAssemblyArchive,
     clear,
   }
 })

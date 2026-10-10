@@ -1,18 +1,27 @@
 <script setup lang="ts" generic="T extends PropertyKey">
-const { fetchFunc } = defineProps<{
-  id: string
+import type { CSSProperties } from 'vue'
+
+defineOptions({
+  inheritAttrs: false,
+})
+
+const { id, fetchFunc, dropModelFunc } = defineProps<{
+  id?: string
   placeholder: string
   type: string
   min?: number
   max?: number
+  popperStyle?: CSSProperties
   fetchFunc: (p: string) => Promise<TitleValue<T>[]>
+  dropModelFunc?: () => void
 }>()
 
 const model = defineModel<TitleValue<T>>()
 const variantsShown = ref<boolean>(false)
 const variants = ref<TitleValue<T>[]>([])
-const searchValue = ref<string>()
+const searchValue = ref<string>(model.value?.title ?? '')
 const variantsCont = useTemplateRef('variants')
+const inputId = id ?? useId()
 
 onClickOutside(variantsCont, () => {
   variantsShown.value = false
@@ -27,7 +36,11 @@ const onInput = useDebounceFn(async () => {
     }
   } else {
     if (!searchValue.value) {
-      model.value = undefined
+      if (dropModelFunc) {
+        dropModelFunc()
+      } else {
+        model.value = undefined
+      }
     }
 
     variantsShown.value = false
@@ -44,22 +57,20 @@ const onFocus = () => {
 const onVariantClick = (v: TitleValue<T>) => {
   variantsShown.value = false
   model.value = v
+  searchValue.value = v.title
 }
-
-watch(model, () => {
-  searchValue.value = model.value?.title
-})
 </script>
 
 <template>
   <FloatingElement
+    :style="popperStyle"
     :shown="variantsShown"
     :distance="5">
     <template #default>
       <input
-        :id
+        :id="inputId"
         v-model="searchValue"
-        class="autocomplete"
+        v-bind="$attrs"
         :placeholder
         :min
         :max
@@ -70,12 +81,12 @@ watch(model, () => {
     <template #popper>
       <ul
         ref="variants"
-        class="variants scroll-y">
+        class="scroll-y flex max-h-[200px] min-w-[200px] list-none flex-col bg-[#1e232d] p-[0_5px_0_10px]">
         <li
           v-for="v in variants"
           :key="v.value">
           <button
-            class="variant"
+            class="w-full py-[10px] text-white"
             @click="onVariantClick(v as TitleValue<T>)">
             {{ v.title }}
           </button>
@@ -88,41 +99,5 @@ watch(model, () => {
 <style lang="scss" scoped>
 .v-popper {
   display: flex !important;
-}
-
-.variants {
-  display: flex;
-  flex-direction: column;
-  list-style-type: none;
-  background-color: #1e232d;
-  padding-inline: 10px;
-  max-height: 200px;
-  min-width: 200px;
-
-  .variant {
-    width: 100%;
-    color: #fff;
-    padding-block: 10px;
-  }
-}
-
-.autocomplete {
-  all: unset;
-  flex: 1 0 0;
-  padding: 9px 12px;
-  border: 1px solid #1e232d;
-  background-color: #0b0e14;
-  color: #fff;
-  font-family: LiberationMono;
-
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
 }
 </style>

@@ -6,28 +6,8 @@ defineProps<{
 
 <template>
   <div
-    class="progress"
+    class="relative h-[5px] w-full overflow-hidden rounded-[999px] bg-[#1e232d] after:absolute after:left-0 after:top-0 after:h-full after:w-[var(--progress)] after:bg-[#00f2ff] after:transition-[width] after:duration-[0.2s] after:ease-in-out after:content-['']"
     :style="{ '--progress': progressValue }" />
 </template>
 
-<style lang="scss" scoped>
-.progress {
-  width: 100%;
-  height: 5px;
-  background-color: #1e232d;
-  border-radius: 999px;
-  position: relative;
-  overflow: hidden;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: var(--progress);
-    background-color: #00f2ff;
-    transition: width 0.2s ease-in-out;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

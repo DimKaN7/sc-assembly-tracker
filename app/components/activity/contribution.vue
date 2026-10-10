@@ -5,71 +5,23 @@ defineProps<{
 </script>
 
 <template>
-  <div class="contribution">
-    <div class="contribution__content">
-      <span class="contribution__assembly">{{ contribution.assemblyName }}</span>
-      <span class="info">
-        <span class="info__username">{{ contribution.username }}</span>
-        <span class="info__material">
+  <div
+    class="relative flex before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-[#00f2ff] before:content-['']">
+    <div class="ml-[20px] flex flex-[1_1_0] flex-col gap-[5px]">
+      <span class="font-bold text-white">{{ contribution.assemblyName }}</span>
+      <span>
+        <span class="font-bold text-white">{{ contribution.username }}</span>
+        <span class="font-[LiberationMono] font-bold text-[#00f2ff]">
           {{
             ` ${contribution.amount > 0 ? '+' : ''}${contribution.amount}${contribution.measure} ${contribution.material}`
           }}
         </span>
       </span>
-      <span class="contribution__date">
+      <span class="font-[LiberationMono] text-[#94a3b8]">
         {{ parseDate(contribution.contributedAt) }}
       </span>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.contribution {
-  display: flex;
-  position: relative;
-
-  &__assembly {
-    font-weight: 700;
-    color: #fff;
-  }
-
-  &__date {
-    font-family: LiberationMono;
-    color: #94a3b8;
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    flex: 1 1 0;
-    margin-left: 20px;
-
-    .info {
-      &__username,
-      &__material {
-        font-weight: 700;
-      }
-
-      &__username {
-        color: #fff;
-      }
-
-      &__material {
-        color: #00f2ff;
-        font-family: LiberationMono;
-      }
-    }
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background-color: #00f2ff;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
