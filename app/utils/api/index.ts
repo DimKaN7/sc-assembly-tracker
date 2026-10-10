@@ -11,7 +11,12 @@ export const performRequest = async <T>(
 export const performSimpleRequest = async (
   url: string,
   options: NitroFetchOptions<NitroFetchRequest> = { method: 'GET' },
-) => {
+): Promise<boolean> => {
   const { $api } = useNuxtApp()
-  await $api(url, options)
+  try {
+    const response = await $api.raw(url, options)
+    return response.ok
+  } catch {
+    return false
+  }
 }

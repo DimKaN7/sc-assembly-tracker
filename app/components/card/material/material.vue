@@ -4,10 +4,15 @@ import XmarkIcon from '@gravity-ui/icons/svgs/xmark.svg'
 import FloppyDiskIcon from '@gravity-ui/icons/svgs/floppy-disk.svg'
 import BanIcon from '@gravity-ui/icons/svgs/ban.svg'
 
-const { material, extended = false } = defineProps<{
+const {
+  material,
+  extended = false,
+  archived = false,
+} = defineProps<{
   material: MaterialResponse
   userId: string
   extended?: boolean
+  archived?: boolean
 }>()
 
 const emits = defineEmits<{
@@ -82,7 +87,9 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
       </div>
       <Progress :progress-value />
     </div>
-    <div class="flex items-start gap-[8px]">
+    <div
+      v-if="!archived"
+      class="flex items-start gap-[8px]">
       <div class="flex flex-[1_1_0] flex-col gap-[8px]">
         <input
           :id="`${material.id}-amount`"
@@ -116,7 +123,7 @@ const onEditClick = (contribution: MaterialContributionResponse) => {
       </div>
     </div>
     <CardMaterialExtension
-      v-if="extended"
+      v-if="extended && !archived"
       :contributions="material.contributions"
       :measure="material.measure"
       :user-id

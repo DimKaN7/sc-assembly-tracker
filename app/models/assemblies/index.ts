@@ -22,6 +22,7 @@ export interface ExtendedAssemblyResponse extends Omit<AssemblyResponse, 'usersC
   materials: MaterialResponse[]
   contributions: HasNextPageResponse<ContributionResponse>
   users: TitleValue<string>[]
+  isArchived: boolean
 }
 
 export interface UpsertAssemblyDTO extends Omit<

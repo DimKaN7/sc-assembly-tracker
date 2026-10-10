@@ -81,6 +81,14 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     }
   }
 
+  const toggleAssemblyArchive = async (): Promise<void> => {
+    if (assembly.value) {
+      if (await toggleArchive(assembly.value.id)) {
+        assembly.value.isArchived = !assembly.value.isArchived
+      }
+    }
+  }
+
   const clear = (): void => {
     assemblies.value = []
     assembly.value = undefined
@@ -98,6 +106,7 @@ export const useAssembliesStore = defineStore('assemblies', () => {
     addMaterial,
     deleteContribution,
     editContribution,
+    toggleAssemblyArchive,
     clear,
   }
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const assembliesStore = useAssembliesStore()
-const { materials } = storeToRefs(assembliesStore)
+const { assembly, materials } = storeToRefs(assembliesStore)
 const { addMaterial, deleteContribution, editContribution } = assembliesStore
 
 const userStore = useUserStore()
@@ -9,7 +9,9 @@ const { user } = storeToRefs(userStore)
 const selectedMaterial = ref<MaterialResponse>()
 
 const onMaterialClick = (material: MaterialResponse) => {
-  selectedMaterial.value = material
+  if (assembly.value && !assembly.value.isArchived) {
+    selectedMaterial.value = material
+  }
 }
 
 const onMaterialClose = () => {
@@ -24,6 +26,7 @@ const onMaterialClose = () => {
     <CardMaterial
       v-for="material in materials"
       :key="material.id"
+      :archived="assembly!.isArchived"
       :material
       :user-id="user.id"
       @add="addMaterial"
@@ -35,6 +38,7 @@ const onMaterialClose = () => {
       class="backdrop">
       <CardMaterial
         extended
+        :archived="assembly!.isArchived"
         :material="selectedMaterial"
         :user-id="user.id"
         @add="addMaterial"

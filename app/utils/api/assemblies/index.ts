@@ -20,3 +20,8 @@ export const upsertAssembly = (
       materials,
     },
   })
+
+export const toggleArchive = (id: string) =>
+  performSimpleRequest(`/assemblies/${id}/archive`, {
+    method: 'PATCH',
+  })
