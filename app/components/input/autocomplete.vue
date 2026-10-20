@@ -19,7 +19,7 @@ const { id, fetchFunc, dropModelFunc } = defineProps<{
 const model = defineModel<TitleValue<T>>()
 const variantsShown = ref<boolean>(false)
 const variants = ref<TitleValue<T>[]>([])
-const searchValue = ref<string>(model.value?.title ?? '')
+const searchValue = ref<string>('')
 const variantsCont = useTemplateRef('variants')
 const inputId = id ?? useId()
 
@@ -59,6 +59,18 @@ const onVariantClick = (v: TitleValue<T>) => {
   model.value = v
   searchValue.value = v.title
 }
+
+watch(
+  model,
+  () => {
+    searchValue.value = model.value?.title ?? ''
+    variantsShown.value = false
+    variants.value = []
+  },
+  {
+    immediate: true,
+  },
+)
 </script>
 
 <template>
