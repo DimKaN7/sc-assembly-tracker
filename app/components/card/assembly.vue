@@ -48,7 +48,7 @@ const accessIcon = computed(() =>
           </FloatingTooltip>
         </div>
       </div>
-      <span class="text-[#94a3b8]">{{ assembly.description }}</span>
+      <span class="line-clamp-1 h-[21px] text-[#94a3b8]">{{ assembly.description }}</span>
       <span>
         <span class="font-[LiberationMono] text-white">{{ assembly.usersCount }}</span>
         <span class="text-[#94a3b8]">
